@@ -8,45 +8,47 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-
-const steps = [
-  {
-    icon: CalendarCheck,
-    title: "Schedule Service",
-    desc: "Book online in 60 seconds or call our 24/7 dispatcher for immediate dispatch.",
-  },
-  {
-    icon: Search,
-    title: "Detailed Inspection",
-    desc: "Comprehensive diagnostic checks of panels, wiring, loads, and code compliance.",
-  },
-  {
-    icon: FileText,
-    title: "Transparent Estimate",
-    desc: "Upfront, itemized quote signed before any work begins. What we quote is what you pay.",
-  },
-  {
-    icon: Wrench,
-    title: "Expert Installation",
-    desc: "Licensed master electricians execute clean, code-compliant, and safe work.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Safety & Sign-Off",
-    desc: "Load testing, safety compliance sign-off, and full workmanship warranty activated.",
-  },
-];
-
-// Desktop S-curve node positions (centered on the SVG path)
-const desktopPositions = [
-  { left: "20%", top: "50px" },
-  { left: "50%", top: "50px" },
-  { left: "80%", top: "50px" },
-  { left: "20%", top: "310px" },
-  { left: "50%", top: "310px" },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function Process() {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      icon: CalendarCheck,
+      title: t("Schedule Service", "Programar Servicio"),
+      desc: t("Book online in 60 seconds or call our 24/7 dispatcher for immediate dispatch.", "Reserve en línea en 60 segundos o llame a nuestro despachador 24/7 para un envío inmediato."),
+    },
+    {
+      icon: Search,
+      title: t("Detailed Inspection", "Inspección Detallada"),
+      desc: t("Comprehensive diagnostic checks of panels, wiring, loads, and code compliance.", "Controles de diagnóstico integrales de paneles, cableado, cargas y cumplimiento de códigos."),
+    },
+    {
+      icon: FileText,
+      title: t("Transparent Estimate", "Presupuesto Transparente"),
+      desc: t("Upfront, itemized quote signed before any work begins. What we quote is what you pay.", "Cotización detallada por adelantado firmada antes de comenzar cualquier trabajo. Lo que cotizamos es lo que paga."),
+    },
+    {
+      icon: Wrench,
+      title: t("Expert Installation", "Instalación Experta"),
+      desc: t("Licensed master electricians execute clean, code-compliant, and safe work.", "Electricistas maestros autorizados ejecutan trabajos limpios, seguros y que cumplen con los códigos."),
+    },
+    {
+      icon: BadgeCheck,
+      title: t("Safety & Sign-Off", "Seguridad y Aprobación"),
+      desc: t("Load testing, safety compliance sign-off, and full workmanship warranty activated.", "Prueba de carga, aprobación de cumplimiento de seguridad y garantía de mano de obra completa activada."),
+    },
+  ];
+
+  const desktopPositions = [
+    { left: "20%", top: "50px" },
+    { left: "50%", top: "50px" },
+    { left: "80%", top: "50px" },
+    { left: "20%", top: "310px" },
+    { left: "50%", top: "310px" },
+  ];
+
   return (
     <section className="relative py-20 overflow-hidden bg-white border-y border-slate-100">
 
@@ -107,16 +109,16 @@ export function Process() {
           {/* Eyebrow */}
           <span className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[#FF6B00] rounded-full px-5 py-1.5 text-[11px] font-black uppercase tracking-widest mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse" />
-            Step by Step Process
+            {t("Step by Step Process", "Proceso Paso a Paso")}
           </span>
 
           <h2 
             className="text-[#0F172A] tracking-tight leading-[1.15]"
             style={{ fontSize: "36px", marginTop: "-15px", marginBottom: "10px", fontWeight: 700 }}
           >
-            We Complete Every{" "}
+            {t("We Complete Every ", "Completamos Cada ")}
             <span className="bg-gradient-to-r from-[#FF6B00] to-[#FF8C33] bg-clip-text text-transparent">
-              Step Carefully.
+              {t("Step Carefully.", "Paso con Cuidado.")}
             </span>
           </h2>
 
@@ -124,8 +126,7 @@ export function Process() {
             className="text-sm sm:text-base text-slate-500 max-w-xl mx-auto font-medium leading-relaxed"
             style={{ marginBottom: "-50px" }}
           >
-            Our proven methodology guarantees precision, safety, and clean,
-            code-compliant results — from your first call to final sign-off.
+            {t("Our proven methodology guarantees precision, safety, and clean, code-compliant results — from your first call to final sign-off.", "Nuestra metodología comprobada garantiza precisión, seguridad y resultados limpios que cumplen con los códigos, desde su primera llamada hasta la firma final.")}
           </p>
         </motion.div>
 

@@ -3,6 +3,22 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Estimate } from "@/components/site/Estimate";
 import { Toaster } from "@/components/ui/sonner";
+import { useLanguage } from "@/hooks/useLanguage";
+
+function ContactPage() {
+  const { t } = useLanguage();
+  return (
+    <SiteLayout>
+      <PageHeader
+        eyebrow={t("Contact", "Contacto")}
+        title={t("Let's power your next project.", "Alimentemos su próximo proyecto.")}
+        subtitle={t("Free estimates within 24 hours — no pressure, fully transparent.", "Presupuestos gratuitos en 24 horas — sin presiones, totalmente transparentes.")}
+      />
+      <Estimate />
+      <Toaster />
+    </SiteLayout>
+  );
+}
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -13,11 +29,5 @@ export const Route = createFileRoute("/contact")({
       { property: "og:description", content: "Free electrical estimates within 24 hours." },
     ],
   }),
-  component: () => (
-    <SiteLayout>
-      <PageHeader eyebrow="Contact" title="Let's power your next project." subtitle="Free estimates within 24 hours — no pressure, fully transparent." />
-      <Estimate />
-      <Toaster />
-    </SiteLayout>
-  ),
+  component: ContactPage,
 });

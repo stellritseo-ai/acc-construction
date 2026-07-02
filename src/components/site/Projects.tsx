@@ -8,73 +8,8 @@ import p5 from "@/assets/service-commercial.jpg";
 import p6 from "@/assets/service-ev.jpg";
 import p7 from "@/assets/service-generator.jpg";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "@tanstack/react-router";
-
-const all = [
-  {
-    img: p1,
-    title: "Luxury Home Lighting System",
-    cat: "Residential",
-    loc: "Coral Gables, FL",
-    year: "2024",
-    tag: "Smart Lighting",
-    featured: true,
-  },
-  {
-    img: p2,
-    title: "Corporate Atrium Installation",
-    cat: "Commercial",
-    loc: "Brickell, FL",
-    year: "2024",
-    tag: "Panel Upgrade",
-    featured: false,
-  },
-  {
-    img: p3,
-    title: "Warehouse High-Bay LED Retrofit",
-    cat: "Industrial",
-    loc: "Doral, FL",
-    year: "2023",
-    tag: "Industrial LED",
-    featured: true,
-  },
-  {
-    img: p4,
-    title: "Restaurant Ambient Lighting",
-    cat: "Commercial",
-    loc: "Wynwood, FL",
-    year: "2024",
-    tag: "Ambient Design",
-    featured: false,
-  },
-  {
-    img: p5,
-    title: "Office Build-Out Wiring",
-    cat: "Commercial",
-    loc: "Aventura, FL",
-    year: "2023",
-    tag: "Full Rewire",
-    featured: false,
-  },
-  {
-    img: p6,
-    title: "Fleet EV Charging Station",
-    cat: "Residential",
-    loc: "Pinecrest, FL",
-    year: "2024",
-    tag: "EV Charger",
-    featured: false,
-  },
-  {
-    img: p7,
-    title: "Whole-Home Generator Install",
-    cat: "Residential",
-    loc: "Miami Beach, FL",
-    year: "2023",
-    tag: "Generator",
-    featured: false,
-  },
-];
 
 const cats = ["All", "Residential", "Commercial", "Industrial"] as const;
 
@@ -86,6 +21,81 @@ const catIcons = {
 };
 
 export function Projects() {
+  const { t } = useLanguage();
+
+  const all = [
+    {
+      img: p1,
+      title: t("Luxury Home Lighting System", "Sistema de Iluminación de Lujo para el Hogar"),
+      cat: "Residential",
+      loc: "Coral Gables, FL",
+      year: "2024",
+      tag: t("Smart Lighting", "Iluminación Inteligente"),
+      featured: true,
+    },
+    {
+      img: p2,
+      title: t("Corporate Atrium Installation", "Instalación de Atrio Corporativo"),
+      cat: "Commercial",
+      loc: "Brickell, FL",
+      year: "2024",
+      tag: t("Panel Upgrade", "Actualización de Panel"),
+      featured: false,
+    },
+    {
+      img: p3,
+      title: t("Warehouse High-Bay LED Retrofit", "Actualización LED de Gran Altura para Almacén"),
+      cat: "Industrial",
+      loc: "Doral, FL",
+      year: "2023",
+      tag: t("Industrial LED", "LED Industrial"),
+      featured: true,
+    },
+    {
+      img: p4,
+      title: t("Restaurant Ambient Lighting", "Iluminación Ambiental para Restaurante"),
+      cat: "Commercial",
+      loc: "Wynwood, FL",
+      year: "2024",
+      tag: t("Ambient Design", "Diseño de Ambiente"),
+      featured: false,
+    },
+    {
+      img: p5,
+      title: t("Office Build-Out Wiring", "Cableado de Construcción de Oficinas"),
+      cat: "Commercial",
+      loc: "Aventura, FL",
+      year: "2023",
+      tag: t("Full Rewire", "Re-cableado Completo"),
+      featured: false,
+    },
+    {
+      img: p6,
+      title: t("Fleet EV Charging Station", "Estación de Carga EV para Flota"),
+      cat: "Residential",
+      loc: "Pinecrest, FL",
+      year: "2024",
+      tag: t("EV Charger", "Cargador EV"),
+      featured: false,
+    },
+    {
+      img: p7,
+      title: t("Whole-Home Generator Install", "Instalación de Generador para Todo el Hogar"),
+      cat: "Residential",
+      loc: "Miami Beach, FL",
+      year: "2023",
+      tag: t("Generator", "Generador"),
+      featured: false,
+    },
+  ];
+
+  const catLabels = {
+    All: t("All", "Todos"),
+    Residential: t("Residential", "Residencial"),
+    Commercial: t("Commercial", "Comercial"),
+    Industrial: t("Industrial", "Industrial"),
+  };
+
   const [active, setActive] = useState<(typeof cats)[number]>("All");
   const items = active === "All" ? all : all.filter((p) => p.cat === active);
 
@@ -122,23 +132,23 @@ export function Projects() {
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#FF6B00] mb-5 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse" />
-              Featured Projects
+              {t("Featured Projects", "Proyectos Destacados")}
             </div>
 
             <h2 
               className="text-slate-900 tracking-tight leading-[1.1]"
               style={{ textTransform: "capitalize", fontWeight: 800, fontSize: "40px", marginTop: "-11px", marginBottom: "8px" }}
             >
-              Work we're{" "}
+              {t("Work we're ", "Trabajo del cual estamos ")}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#E05E00]">
-                proud of
+                {t("proud of", "orgullosos")}
               </span>
             </h2>
             <p 
               className="text-slate-500 text-base leading-relaxed"
               style={{ marginBottom: "-25px" }}
             >
-              A hand-picked selection of recent electrical installations across Miami &amp; South Florida — residential, commercial, and industrial.
+              {t("A hand-picked selection of recent electrical installations across Miami & South Florida — residential, commercial, and industrial.", "Una selección cuidadosamente elegida de instalaciones eléctricas recientes en todo Miami y el sur de Florida: residenciales, comerciales e industriales.")}
             </p>
           </div>
 
@@ -147,7 +157,7 @@ export function Projects() {
             to="/contact"
             className="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-[#1e293b] text-white text-xs font-bold uppercase tracking-widest rounded-full px-7 py-4 transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98] shrink-0 self-start lg:self-auto"
           >
-            Start Your Project <ArrowRight className="h-4 w-4" />
+            {t("Start Your Project", "Iniciar Su Proyecto")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
@@ -167,7 +177,7 @@ export function Projects() {
                 )}
               >
                 <Icon className="h-3.5 w-3.5" />
-                {c}
+                {catLabels[c]}
               </button>
             );
           })}
@@ -211,7 +221,7 @@ export function Projects() {
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 {/* Category pill */}
                 <span className="inline-flex items-center bg-[#FF6B00] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full mb-3">
-                  {p.cat}
+                  {catLabels[p.cat as keyof typeof catLabels]}
                 </span>
 
                 <h3 className="font-extrabold text-white text-base sm:text-lg leading-tight mb-2">
@@ -270,7 +280,7 @@ export function Projects() {
             <div className="bg-white px-6 py-4 flex items-center justify-between gap-4 shrink-0">
               <div className="flex items-center gap-3 min-w-0">
                 <span className="bg-[#FF6B00] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shrink-0">
-                  {lightbox.cat}
+                  {catLabels[lightbox.cat as keyof typeof catLabels]}
                 </span>
                 <div className="min-w-0">
                   <p className="font-extrabold text-slate-900 text-sm sm:text-base leading-tight truncate">{lightbox.title}</p>

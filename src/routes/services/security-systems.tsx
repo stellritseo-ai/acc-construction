@@ -5,6 +5,7 @@ import { EmergencyCTA } from "@/components/site/EmergencyCTA";
 import { CheckCircle2, Phone, ShieldCheck, Clock, Award, ChevronRight } from "lucide-react";
 import img from "@/assets/service-commercial.jpg";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const Route = createFileRoute("/services/security-systems")({
   head: () => ({
@@ -19,29 +20,40 @@ export const Route = createFileRoute("/services/security-systems")({
 });
 
 function SecurityPage() {
+  const { t } = useLanguage();
+
   const serviceList = [
-    "IP Security Camera Conduit & Wiring",
-    "Access Control Systems (Card Readers/Keypads)",
-    "Smart Video Doorbell Installations",
-    "Low-Voltage Landscape & Accent Lighting",
-    "Structured Ethernet & Network Cabling",
-    "Intercom & Commercial Paging Systems",
-    "Surround Sound & Home Theater Low-Voltage",
-    "Smart Lock Integration & Power Wiring",
+    t("IP Security Camera Conduit & Wiring", "Cableado y Conductos de Cámaras de Seguridad IP"),
+    t("Access Control Systems (Card Readers/Keypads)", "Sistemas de Control de Acceso (Lectores de Tarjetas/Teclados)"),
+    t("Smart Video Doorbell Installations", "Instalaciones de Timbres con Video Inteligentes"),
+    t("Low-Voltage Landscape & Accent Lighting", "Iluminación de Acento y de Paisaje de Bajo Voltaje"),
+    t("Structured Ethernet & Network Cabling", "Cableado de Red y Ethernet Estructurado"),
+    t("Intercom & Commercial Paging Systems", "Sistemas de Intercomunicación y Megafonía Comercial"),
+    t("Surround Sound & Home Theater Low-Voltage", "Bajo Voltaje para Sonido Envolvente y Cine en Casa"),
+    t("Smart Lock Integration & Power Wiring", "Integración de Cerraduras Inteligentes y Cableado de Energía"),
   ];
 
   const faqs = [
-    { q: "Do you supply the cameras and locks?", a: "We can both supply enterprise-grade surveillance equipment or professionally wire and install customer-provided smart locks and cameras (like Ring, Nest, or Ubiquiti)." },
-    { q: "Why is professional low-voltage wiring better than wireless?", a: "Wireless systems suffer from interference, batteries that require regular recharging, and signal loss through walls. Hardwired systems (using PoE or dedicated power lines) are completely reliable and require almost zero maintenance." },
-    { q: "Is low-voltage wiring subject to permitting?", a: "Yes, in many South Florida municipalities, low-voltage installations (especially for commercial properties) require specific permits and inspections to verify proper fire-stopping in walls and ceilings." },
+    {
+      q: t("Do you supply the cameras and locks?", "¿Suministran las cámaras y cerraduras?"),
+      a: t("We can both supply enterprise-grade surveillance equipment or professionally wire and install customer-provided smart locks and cameras (like Ring, Nest, or Ubiquiti).", "Podemos suministrar equipos de vigilancia de nivel empresarial o cablear e instalar profesionalmente cerraduras y cámaras inteligentes proporcionadas por el cliente (como Ring, Nest o Ubiquiti).")
+    },
+    {
+      q: t("Why is professional low-voltage wiring better than wireless?", "¿Por qué es mejor el cableado de bajo voltaje profesional que el inalámbrico?"),
+      a: t("Wireless systems suffer from interference, batteries that require regular recharging, and signal loss through walls. Hardwired systems (using PoE or dedicated power lines) are completely reliable and require almost zero maintenance.", "Los sistemas inalámbricos sufren de interferencias, baterías que requieren recarga regular y pérdida de señal a través de las paredes. Los sistemas cableados (que usan PoE o líneas de energía dedicadas) son completamente confiables y requieren casi cero mantenimiento.")
+    },
+    {
+      q: t("Is low-voltage wiring subject to permitting?", "¿El cableado de bajo voltaje está sujeto a permisos?"),
+      a: t("Yes, in many South Florida municipalities, low-voltage installations (especially for commercial properties) require specific permits and inspections to verify proper fire-stopping in walls and ceilings.", "Sí, en muchos municipios del sur de Florida, las instalaciones de bajo voltaje (especialmente para propiedades comerciales) requieren permisos y inspecciones específicos para verificar el cortafuegos adecuado en paredes y techos.")
+    }
   ];
 
   return (
     <>
       <PageHeader
-        eyebrow="Security & Low Voltage"
-        title="Securing Your Property with Reliable Wiring"
-        subtitle="Protect your family or assets. We deploy enterprise-grade security cabling, network structures, and access control systems with professional, clean routing."
+        eyebrow={t("Security & Low Voltage", "Seguridad y Bajo Voltaje")}
+        title={t("Securing Your Property with Reliable Wiring", "Protegiendo su Propiedad con Cableado Confiable")}
+        subtitle={t("Protect your family or assets. We deploy enterprise-grade security cabling, network structures, and access control systems with professional, clean routing.", "Proteja a su familia o activos. Desplegamos cableado de seguridad de nivel empresarial, estructuras de red y sistemas de control de acceso con un enrutamiento profesional y limpio.")}
       />
 
       <section className="py-20 bg-background">
@@ -51,18 +63,15 @@ function SecurityPage() {
             <div className="space-y-10">
               <div>
                 <h2 className="font-display text-3xl font-extrabold text-secondary">
-                  High-Performance Cabling for Security & Networks
+                  {t("High-Performance Cabling for Security & Networks", "Cableado de Alto Rendimiento para Seguridad y Redes")}
                 </h2>
                 <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-                  Modern security and home/business automation rely on steady, hardwired connections. 
-                  R&E Electrical Contractor Corp's low-voltage technicians run structured cabling (Cat6, PoE, and alarm lines) 
-                  that ensures peak performance for your smart cameras, security sensors, network access points, and access panels. 
-                  We run cables neatly behind drywall, in attics, or through conduits, and install proper firewall fire-stopping.
+                  {t("Modern security and home/business automation rely on steady, hardwired connections. R&E Electrical Contractor Corp's low-voltage technicians run structured cabling (Cat6, PoE, and alarm lines) that ensures peak performance for your smart cameras, security sensors, network access points, and access panels. We run cables neatly behind drywall, in attics, or through conduits, and install proper firewall fire-stopping.", "La seguridad moderna y la automatización del hogar/negocio dependen de conexiones cableadas estables. Los técnicos de bajo voltaje de R&E Electrical Contractor Corp instalan cableado estructurado (Cat6, PoE y líneas de alarma) que garantiza el máximo rendimiento de sus cámaras inteligentes, sensores de seguridad, puntos de acceso a la red y paneles de acceso. Pasamos los cables ordenadamente detrás del panel de yeso, en áticos o a través de conductos, e instalamos los cortafuegos adecuados.")}
                 </p>
               </div>
 
               <div className="border-t border-border pt-8">
-                <h3 className="font-display text-xl font-extrabold text-secondary">Our Specialties</h3>
+                <h3 className="font-display text-xl font-extrabold text-secondary">{t("Our Specialties", "Nuestras Especialidades")}</h3>
                 <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                   {serviceList.map((item) => (
                     <li key={item} className="flex items-center gap-2.5 text-secondary">
@@ -75,7 +84,7 @@ function SecurityPage() {
 
               {/* FAQ Section */}
               <div className="border-t border-border pt-8">
-                <h3 className="font-display text-xl font-extrabold text-secondary mb-6">Frequently Asked Questions</h3>
+                <h3 className="font-display text-xl font-extrabold text-secondary mb-6">{t("Frequently Asked Questions", "Preguntas Frecuentes")}</h3>
                 <div className="space-y-4">
                   {faqs.map((faq, idx) => (
                     <details key={idx} className="group border border-border rounded-2xl bg-muted/20 p-5 [&_summary::-webkit-details-marker]:hidden">
@@ -102,21 +111,21 @@ function SecurityPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <div className="text-xs font-bold uppercase tracking-wider text-primary">R&E Low-Voltage</div>
-                  <div className="mt-1 font-display text-xl font-extrabold">Cabling, Security, & Ethernet</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-primary">{t("R&E Low-Voltage", "Bajo Voltaje R&E")}</div>
+                  <div className="mt-1 font-display text-xl font-extrabold">{t("Cabling, Security, & Ethernet", "Cableado, Seguridad y Ethernet")}</div>
                 </div>
               </div>
 
               {/* Booking Card */}
               <div className="rounded-3xl border border-primary/20 bg-primary/5 p-8 shadow-sm">
-                <h3 className="font-display text-2xl font-extrabold text-secondary">Ready to get started?</h3>
+                <h3 className="font-display text-2xl font-extrabold text-secondary">{t("Ready to get started?", "¿Listo para comenzar?")}</h3>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                  Book a security layout review or ethernet cabling diagnostic. We'll map your requirements and quote.
+                  {t("Book a security layout review or ethernet cabling diagnostic. We'll map your requirements and quote.", "Reserve una revisión del diseño de seguridad o un diagnóstico de cableado de Ethernet. Mapearemos sus requisitos y realizaremos una cotización.")}
                 </p>
 
                 <div className="mt-6 space-y-3.5">
                   <Button asChild size="lg" className="w-full">
-                    <Link to="/contact">Request Estimate</Link>
+                    <Link to="/contact">{t("Request Estimate", "Solicitar Presupuesto")}</Link>
                   </Button>
                   <a
                     href="tel:+17863075933"
@@ -128,13 +137,13 @@ function SecurityPage() {
 
                 <div className="mt-6 space-y-2 text-xs font-semibold text-secondary/80">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-primary" /> Fully Licensed & Insured
+                    <ShieldCheck className="h-4 w-4 text-primary" /> {t("Fully Licensed & Insured", "Totalmente Autorizado y Asegurado")}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" /> Estimates Within 24 Hours
+                    <Clock className="h-4 w-4 text-primary" /> {t("Estimates Within 24 Hours", "Presupuestos en 24 Horas")}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Award className="h-4 w-4 text-primary" /> 100% Satisfaction Guaranteed
+                    <Award className="h-4 w-4 text-primary" /> {t("100% Satisfaction Guaranteed", "Garantía de Satisfacción del 100%")}
                   </div>
                 </div>
               </div>

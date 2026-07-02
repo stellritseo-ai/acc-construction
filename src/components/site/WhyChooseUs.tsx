@@ -1,15 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import aboutElectrician from "@/assets/about-electrician.jpg";
-
-const features = [
-  { title: "Licensed & Insured", desc: "Fully licensed master electricians with $2M liability coverage." },
-  { title: "Fast Response Time", desc: "Same-day quotes and emergency dispatch within 60 minutes." },
-  { title: "Transparent Pricing", desc: "Flat-rate quotes signed off before any work begins." },
-  { title: "Experienced Electricians", desc: "15+ years average tenure. Background-checked technicians." },
-  { title: "Emergency Support", desc: "24/7 hotline for power outages, breakers, and hazards." },
-  { title: "Satisfaction Guarantee", desc: "Workmanship warranty on every installation we deliver." },
-];
+import whyChooseImg from "@/assets/why-choose.jpeg";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const TinyLightningIcon = () => (
   <svg className="w-3.5 h-3.5 text-[#FF6B00] fill-[#FF6B00] shrink-0" viewBox="0 0 24 24">
@@ -18,6 +10,17 @@ const TinyLightningIcon = () => (
 );
 
 export function WhyChooseUs() {
+  const { t } = useLanguage();
+
+  const features = [
+    { title: t("Licensed & Insured", "Con Licencia y Seguro"), desc: t("Fully licensed master electricians with $2M liability coverage.", "Electricistas maestros totalmente autorizados con cobertura de responsabilidad civil de $2M.") },
+    { title: t("Fast Response Time", "Tiempo de Respuesta Rápido"), desc: t("Same-day quotes and emergency dispatch within 60 minutes.", "Cotizaciones el mismo día y despacho de emergencia en menos de 60 minutos.") },
+    { title: t("Transparent Pricing", "Precios Transparentes"), desc: t("Flat-rate quotes signed off before any work begins.", "Cotizaciones de tarifa fija firmadas antes de que comience cualquier trabajo.") },
+    { title: t("Experienced Electricians", "Electricistas Experimentados"), desc: t("15+ years average tenure. Background-checked technicians.", "Más de 15 años de experiencia promedio. Técnicos con verificación de antecedentes.") },
+    { title: t("Emergency Support", "Soporte de Emergencia"), desc: t("24/7 hotline for power outages, breakers, and hazards.", "Línea directa 24/7 para cortes de energía, disyuntores y peligros.") },
+    { title: t("Satisfaction Guarantee", "Garantía de Satisfacción"), desc: t("Workmanship warranty on every installation we deliver.", "Garantía de mano de obra en cada instalación que entregamos.") },
+  ];
+
   return (
     <section id="why-choose-us" className="py-[60px] bg-white border-b border-slate-100 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
@@ -38,16 +41,16 @@ export function WhyChooseUs() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B00] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B00]"></span>
                 </span>
-                <span>Why Choose Us</span>
+                <span>{t("Why Choose Us", "Por Qué Elegirnos")}</span>
               </div>
 
               <h2 className="leading-[1.2] text-neutral-900 tracking-tight font-extrabold text-[24px] sm:text-[31px] capitalize mt-[-10px] mb-[10px]">
-                The standard for <span className="text-[#FF6B00]">premium</span> electrical service.
+                {t("The standard for ", "El estándar para un ")}<span className="text-[#FF6B00]">{t("premium", "servicio")}</span>{t(" electrical service.", " eléctrico premium.")}
               </h2>
 
               {/* Description */}
               <p className="text-slate-500 text-[15px] leading-[28px] mb-6 font-medium max-w-[95%]">
-                We've built our reputation on doing the job right the first time — with the safety, craftsmanship, and transparent communication that South Florida homeowners and businesses rely on.
+                {t("We've built our reputation on doing the job right the first time — with the safety, craftsmanship, and transparent communication that South Florida homeowners and businesses rely on.", "Hemos construido nuestra reputación haciendo bien el trabajo desde la primera vez, con la seguridad, la mano de obra y la comunicación transparente en la que confían los propietarios y empresas del sur de Florida.")}
               </p>
 
               {/* Feature items */}
@@ -74,13 +77,13 @@ export function WhyChooseUs() {
                   to="/services"
                   className="inline-flex items-center justify-center gap-2 bg-[#0F172A] hover:bg-[#1e293b] text-white text-[11px] md:text-xs font-bold uppercase tracking-widest rounded-full px-7 py-3.5 transition-all duration-300 shadow-[0_4px_14px_rgba(15,23,42,0.15)] hover:scale-[1.03] active:scale-[0.97]"
                 >
-                  Explore Services
+                  {t("Explore Services", "Explorar Servicios")}
                 </Link>
                 <a
                   href="tel:+17863075933"
                   className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#FF6B00] to-[#E05E00] hover:from-[#E05E00] hover:to-[#C24F00] text-white text-[11px] md:text-xs font-bold uppercase tracking-widest rounded-full px-7 py-3.5 transition-all duration-300 shadow-[0_4px_14px_rgba(255,107,0,0.25)] hover:scale-[1.03] active:scale-[0.97]"
                 >
-                  Call (786) 307-5933
+                  {t("Call (786) 307-5933", "Llamar al (786) 307-5933")}
                 </a>
               </div>
             </div>
@@ -96,7 +99,7 @@ export function WhyChooseUs() {
               className="relative group rounded-3xl overflow-hidden shadow-lg border border-slate-100 h-[280px] sm:h-[360px] lg:h-[480px] lg:sticky lg:top-[120px] w-full"
             >
               <img
-                src={aboutElectrician}
+                src={whyChooseImg}
                 alt="Licensed Electrician working on breaker panel board"
                 className="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500 ease-out"
                 loading="lazy"
@@ -107,11 +110,11 @@ export function WhyChooseUs() {
               {/* Glassmorphic Overlay Card */}
               <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/90 backdrop-blur-md border border-white/20 rounded-2xl p-3 sm:p-5 shadow-lg flex items-center justify-between select-none transition-all duration-300 group-hover:bottom-6 group-hover:bg-white/95 group-hover:shadow-xl">
                 <div className="text-left">
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">R&E Quality</p>
-                  <p className="text-xs sm:text-sm font-extrabold text-[#0F172A] mt-0.5">Licensed Florida Electricians</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{t("R&E Quality", "Calidad R&E")}</p>
+                  <p className="text-xs sm:text-sm font-extrabold text-[#0F172A] mt-0.5">{t("Licensed Florida Electricians", "Electricistas Autorizados de Florida")}</p>
                 </div>
                 <span className="text-[10px] font-black text-[#FF6B00] bg-[#FF6B00]/10 border border-[#FF6B00]/20 px-2.5 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">
-                  Active Work
+                  {t("Active Work", "Trabajo Activo")}
                 </span>
               </div>
             </motion.div>

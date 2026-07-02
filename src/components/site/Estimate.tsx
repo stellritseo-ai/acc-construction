@@ -6,8 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function Estimate() {
+  const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,7 +17,7 @@ export function Estimate() {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      toast.success("Thanks! We'll be in touch within 24 hours.");
+      toast.success(t("Thanks! We'll be in touch within 24 hours.", "¡Gracias! Nos pondremos en contacto dentro de las 24 horas."));
       (e.target as HTMLFormElement).reset();
     }, 600);
   };
@@ -24,47 +26,47 @@ export function Estimate() {
     <section id="contact" className="section-padding">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary">Free Estimate</span>
+          <span className="inline-flex rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary">{t("Free Estimate", "Presupuesto Gratis")}</span>
           <h2 className="mt-4 font-display text-4xl font-extrabold leading-tight text-secondary sm:text-5xl">
-            Get a free, no-pressure quote.
+            {t("Get a free, no-pressure quote.", "Obtenga una cotización gratuita y sin compromiso.")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Tell us about your project and we'll get back within 24 hours with a transparent quote.
+            {t("Tell us about your project and we'll get back within 24 hours with a transparent quote.", "Cuéntenos sobre su proyecto y le responderemos en un plazo de 24 horas con una cotización transparente.")}
           </p>
         </div>
 
         <div className="mt-14 grid gap-8 lg:grid-cols-2">
           <form onSubmit={onSubmit} className="rounded-3xl border border-border bg-white p-8 shadow-[var(--shadow-card)]">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Full Name" id="name"><Input id="name" required placeholder="Jane Smith" /></Field>
-              <Field label="Phone" id="phone"><Input id="phone" type="tel" required placeholder="(786) 307-5933" /></Field>
+              <Field label={t("Full Name", "Nombre Completo")} id="name"><Input id="name" required placeholder={t("Jane Smith", "Juan Pérez")} /></Field>
+              <Field label={t("Phone", "Teléfono")} id="phone"><Input id="phone" type="tel" required placeholder="(786) 307-5933" /></Field>
               <div className="sm:col-span-2">
-                <Field label="Email" id="email"><Input id="email" type="email" required placeholder="jane@example.com" /></Field>
+                <Field label={t("Email", "Correo Electrónico")} id="email"><Input id="email" type="email" required placeholder="jane@example.com" /></Field>
               </div>
               <div className="sm:col-span-2">
-                <Field label="Service Type" id="service">
+                <Field label={t("Service Type", "Tipo de Servicio")} id="service">
                   <Select>
-                    <SelectTrigger id="service" className="h-11"><SelectValue placeholder="Select a service" /></SelectTrigger>
+                    <SelectTrigger id="service" className="h-11"><SelectValue placeholder={t("Select a service", "Seleccione un servicio")} /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="residential">Residential Electrical</SelectItem>
-                      <SelectItem value="commercial">Commercial Electrical</SelectItem>
-                      <SelectItem value="industrial">Industrial Electrical</SelectItem>
-                      <SelectItem value="panel">Panel Upgrade</SelectItem>
-                      <SelectItem value="ev">EV Charger</SelectItem>
-                      <SelectItem value="generator">Generator</SelectItem>
-                      <SelectItem value="emergency">Emergency Service</SelectItem>
+                      <SelectItem value="residential">{t("Residential Electrical", "Eléctrico Residencial")}</SelectItem>
+                      <SelectItem value="commercial">{t("Commercial Electrical", "Eléctrico Comercial")}</SelectItem>
+                      <SelectItem value="industrial">{t("Industrial Electrical", "Eléctrico Industrial")}</SelectItem>
+                      <SelectItem value="panel">{t("Panel Upgrade", "Actualización de Panel")}</SelectItem>
+                      <SelectItem value="ev">{t("EV Charger", "Cargador EV")}</SelectItem>
+                      <SelectItem value="generator">{t("Generator", "Generador")}</SelectItem>
+                      <SelectItem value="emergency">{t("Emergency Service", "Servicio de Emergencia")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </Field>
               </div>
               <div className="sm:col-span-2">
-                <Field label="Message" id="msg">
-                  <Textarea id="msg" rows={5} placeholder="Tell us about your project..." />
+                <Field label={t("Message", "Mensaje")} id="msg">
+                  <Textarea id="msg" rows={5} placeholder={t("Tell us about your project...", "Cuéntenos sobre su proyecto...")} />
                 </Field>
               </div>
             </div>
             <Button type="submit" variant="hero" size="xl" disabled={submitting} className="mt-6 w-full">
-              {submitting ? "Sending..." : <>Get My Free Estimate <Send className="h-4 w-4" /></>}
+              {submitting ? t("Sending...", "Enviando...") : <>{t("Get My Free Estimate", "Obtener Mi Presupuesto Gratis")} <Send className="h-4 w-4" /></>}
             </Button>
           </form>
 
@@ -79,10 +81,10 @@ export function Estimate() {
               />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <InfoCard icon={Phone} title="Call Us" lines={["(786) 307-5933", "24/7 Emergency"]} />
-              <InfoCard icon={Mail} title="Email" lines={["Williams@electricalcontractorcorp.com"]} />
-              <InfoCard icon={MapPin} title="Office" lines={["18730 NW 77 TH CT", "Hialeah, FL 33015"]} />
-              <InfoCard icon={Clock} title="Hours" lines={["Mon–Sat: 7am–7pm", "Sun: Emergency only"]} />
+              <InfoCard icon={Phone} title={t("Call Us", "Llámenos")} lines={["(786) 307-5933", t("24/7 Emergency", "Emergencia 24/7")]} />
+              <InfoCard icon={Mail} title={t("Email", "Correo")} lines={["Williams@electricalcontractorcorp.com"]} />
+              <InfoCard icon={MapPin} title={t("Office", "Oficina")} lines={["18730 NW 77 TH CT", "Hialeah, FL 33015"]} />
+              <InfoCard icon={Clock} title={t("Hours", "Horarios")} lines={[t("Mon–Sat: 7am–7pm", "Lun–Sáb: 7am–7pm"), t("Sun: Emergency only", "Dom: Solo emergencias")]} />
             </div>
           </div>
         </div>

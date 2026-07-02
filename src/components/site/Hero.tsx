@@ -3,8 +3,11 @@ import { ArrowRight, Award, BadgeCheck, Phone, ShieldCheck, Star } from "lucide-
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero-electrician.jpg";
 import heroVideo from "@/assets/herovideo.mp4";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative isolate min-h-screen overflow-hidden pt-16 md:pt-20 flex items-center">
       {/* Background Video with Image Fallback Poster */}
@@ -35,19 +38,19 @@ export function Hero() {
             <span className="flex text-amber-400 gap-0.5">
               {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-current text-amber-400" />)}
             </span>
-            Trusted Electrical Contractor
+            {t("Trusted Electrical Contractor", "Contratista Eléctrico de Confianza")}
           </span>
           <h1 className="mt-6 font-display text-[30px] leading-[40px] sm:text-[40px] sm:leading-[52px] md:text-[50px] md:leading-[65px] font-extrabold tracking-tight">
-            Powering Homes & Businesses With{" "}
-            <span className="gradient-text-orange">Expert Electrical</span> Solutions
+            {t("Powering Homes & Businesses With ", "Energizando Hogares y Empresas con ")}
+            <span className="gradient-text-orange">{t("Expert Electrical", "Soluciones Eléctricas")}</span> {t("Solutions", "Expertas")}
           </h1>
           <p className="max-w-2xl mt-0 mb-[-10px] text-white text-[15px] sm:text-[17px] leading-relaxed sm:leading-[40px]">
-            Licensed, insured, and experienced electricians delivering residential, commercial and industrial services with unmatched quality and reliability.
+            {t("Licensed, insured, and experienced electricians delivering residential, commercial and industrial services with unmatched quality and reliability.", "Electricistas autorizados, asegurados y con experiencia que ofrecen servicios residenciales, comerciales e industriales con una calidad y confiabilidad inigualables.")}
           </p>
           <div className="mt-7 flex flex-row flex-wrap items-center gap-3 sm:gap-4">
             <Button asChild variant="hero" size="xl">
               <Link to="/contact">
-                Get Free Estimate <ArrowRight className="h-4 w-4" />
+                {t("Get Free Estimate", "Obtenga Presupuesto Gratis")} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
             <Button asChild variant="heroOutline" size="xl">
@@ -58,9 +61,9 @@ export function Hero() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2.5 text-sm text-white/90 font-medium">
-            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4.5 w-4.5 text-[#FF6B00]" /> Licensed & Insured</span>
-            <span className="inline-flex items-center gap-2"><BadgeCheck className="h-4.5 w-4.5 text-[#FF6B00]" /> 24/7 Emergency Support</span>
-            <span className="inline-flex items-center gap-2"><Award className="h-4.5 w-4.5 text-[#FF6B00]" /> BBB Accredited</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4.5 w-4.5 text-[#FF6B00]" /> {t("Licensed & Insured", "Licencia y Seguro")}</span>
+            <span className="inline-flex items-center gap-2"><BadgeCheck className="h-4.5 w-4.5 text-[#FF6B00]" /> {t("24/7 Emergency Support", "Soporte de Emergencia 24/7")}</span>
+            <span className="inline-flex items-center gap-2"><Award className="h-4.5 w-4.5 text-[#FF6B00]" /> {t("BBB Accredited", "Acreditado por BBB")}</span>
           </div>
         </div>
       </div>

@@ -13,25 +13,13 @@ import {
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { motion } from "framer-motion";
-
-const services = [
-  { icon: Building2,   title: "New Construction Electrical", desc: "Commercial & residential wiring, structural installations, and full system layouts.", image: comImg, to: "/services/commercial" as const },
-  { icon: ShieldAlert, title: "Fire Alarm Systems",          desc: "Safety-certified design, low-voltage wiring, code compliance, and testing.",   image: panImg, to: "/services/wiring-rewiring" as const },
-  { icon: Cable,       title: "Internet & Security Cameras", desc: "Structured Cat6 network cabling, IP surveillance setups, and smart locks.",   image: resImg, to: "/services/security-systems" as const },
-  { icon: Home,        title: "Residential Electrical",      desc: "Whole-home wiring, lighting setups, smart controls, and safety diagnostics.", image: resImg, to: "/services/residential" as const },
-  { icon: Zap,         title: "Panel Upgrades",              desc: "Modernize circuit breaker panels to 200A or 400A service.",             image: panImg, to: "/services/panel-upgrades" as const },
-  { icon: Plug,        title: "EV Charger Installation",     desc: "Level 2 home chargers and commercial EV station installations.",        image: evImg,  to: "/services/ev-charger" as const },
-  { icon: Battery,     title: "Generator Installation",      desc: "Whole-home emergency standby power setups with automatic transfer.",    image: genImg, to: "/services/generator" as const },
-  { icon: Bolt,        title: "Industrial Electrical",       desc: "Heavy-duty power distribution, equipment hookups, and phase controls.", image: indImg, to: "/services/industrial" as const },
-  { icon: Wrench,      title: "24/7 Emergency Service",      desc: "Rapid dispatch for power outages, sparking outlets, and hazards.",      image: indImg, to: "/services/emergency" as const },
-];
-
-const topItems   = services.slice(0, 3);
-const slideItems = [...services.slice(3), ...services.slice(3)];
+import { useLanguage } from "@/hooks/useLanguage";
 
 /* ── Shared card inner content ─────────────────────────────── */
-function CardContent({ s }: { s: typeof services[number] }) {
+function CardContent({ s }: { s: { icon: any; title: string; desc: string; image: string; to: string } }) {
   const Icon = s.icon;
+  const { t } = useLanguage();
+
   return (
     <>
       {/* Image */}
@@ -71,7 +59,7 @@ function CardContent({ s }: { s: typeof services[number] }) {
                 className="mt-3 inline-flex items-center gap-1.5 text-[#FF8533] font-black text-[10px] uppercase tracking-widest group/link"
               >
                 <span className="border-b border-[#FF8533]/50 group-hover/link:border-[#FF8533] transition-colors">
-                  Explore Service
+                  {t("Explore Service", "Explorar Servicio")}
                 </span>
                 <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform duration-300" />
               </Link>
@@ -84,6 +72,23 @@ function CardContent({ s }: { s: typeof services[number] }) {
 }
 
 export function Services() {
+  const { t } = useLanguage();
+
+  const services = [
+    { icon: Building2,   title: t("New Construction Electrical", "Electricidad de Nuevas Construcciones"), desc: t("Commercial & residential wiring, structural installations, and full system layouts.", "Cableado comercial y residencial, instalaciones estructurales y diseños completos de sistemas."), image: comImg, to: "/services/commercial" },
+    { icon: ShieldAlert, title: t("Fire Alarm Systems", "Sistemas de Alarma contra Incendios"),          desc: t("Safety-certified design, low-voltage wiring, code compliance, and testing.", "Diseño con certificación de seguridad, cableado de bajo voltaje, cumplimiento de códigos y pruebas."),   image: panImg, to: "/services/wiring-rewiring" },
+    { icon: Cable,       title: t("Internet & Security Cameras", "Internet y Cámaras de Seguridad"), desc: t("Structured Cat6 network cabling, IP surveillance setups, and smart locks.", "Cableado estructurado de red Cat6, configuraciones de vigilancia IP y cerraduras inteligentes."),   image: resImg, to: "/services/security-systems" },
+    { icon: Home,        title: t("Residential Electrical", "Electricidad Residencial"),      desc: t("Whole-home wiring, lighting setups, smart controls, and safety diagnostics.", "Cableado para todo el hogar, configuraciones de iluminación, controles inteligentes y diagnósticos de seguridad."), image: resImg, to: "/services/residential" },
+    { icon: Zap,         title: t("Panel Upgrades", "Actualizaciones de Panel"),              desc: t("Modernize circuit breaker panels to 200A or 400A service.", "Modernice los paneles de disyuntores a un servicio de 200A o 400A."),             image: panImg, to: "/services/panel-upgrades" },
+    { icon: Plug,        title: t("EV Charger Installation", "Instalación de Cargador EV"),     desc: t("Level 2 home chargers and commercial EV station installations.", "Cargadores domésticos de nivel 2 e instalaciones de estaciones de EV comerciales."),        image: evImg,  to: "/services/ev-charger" },
+    { icon: Battery,     title: t("Generator Installation", "Instalación de Generadores"),      desc: t("Whole-home emergency standby power setups with automatic transfer.", "Configuraciones de energía de reserva de emergencia para todo el hogar con transferencia automática."),    image: genImg, to: "/services/generator" },
+    { icon: Bolt,        title: t("Industrial Electrical", "Electricidad Industrial"),       desc: t("Heavy-duty power distribution, equipment hookups, and phase controls.", "Distribución de energía de servicio pesado, conexiones de equipos y controles de fase."), image: indImg, to: "/services/industrial" },
+    { icon: Wrench,      title: t("24/7 Emergency Service", "Servicio de Emergencia 24/7"),      desc: t("Rapid dispatch for power outages, sparking outlets, and hazards.", "Despacho rápido para cortes de energía, tomacorrientes con chispas y peligros."),      image: indImg, to: "/services/emergency" },
+  ];
+
+  const topItems   = services.slice(0, 3);
+  const slideItems = [...services.slice(3), ...services.slice(3)];
+
   return (
     <section id="services" className="bg-[#F8FAFC] py-[60px] overflow-hidden border-y border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
@@ -102,7 +107,7 @@ export function Services() {
             {/* Eyebrow badge */}
             <span className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[#FF6B00] rounded-full px-5 py-1.5 text-[11px] font-black uppercase tracking-widest mb-5 w-fit">
               <svg className="w-3 h-3 fill-[#FF6B00]" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              Our Services
+              {t("Our Services", "Nuestros Servicios")}
               <svg className="w-3 h-3 fill-[#FF6B00]" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </span>
 
@@ -111,9 +116,9 @@ export function Services() {
               className="text-neutral-900 tracking-tight leading-[1.2] font-extrabold"
               style={{ fontSize: "clamp(28px, 4vw, 42px)" }}
             >
-              Full-Spectrum{" "}
-              <span className="text-[#FF6B00]">Electrical</span>{" "}
-              Solutions
+              {t("Full-Spectrum ", "Soluciones ")}
+              <span className="text-[#FF6B00]">{t("Electrical", "Eléctricas")}</span>{" "}
+              {t("Solutions", "Completas")}
             </h2>
 
             {/* Divider accent */}
@@ -123,17 +128,15 @@ export function Services() {
             </div>
 
             <p className="text-slate-500 text-sm md:text-[15px] leading-[28px] font-medium max-w-[95%]">
-              One licensed team. Every job — from a single outlet to a 50,000 sqft
-              facility. High-quality electrical work with guaranteed safety and
-              performance across Miami &amp; South Florida.
+              {t("One licensed team. Every job — from a single outlet to a 50,000 sqft facility. High-quality electrical work with guaranteed safety and performance across Miami & South Florida.", "Un equipo autorizado. Cada trabajo, desde un solo tomacorriente hasta una instalación de 50,000 pies cuadrados. Trabajo eléctrico de alta calidad con seguridad y rendimiento garantizados en todo Miami y el sur de Florida.")}
             </p>
 
             {/* Trust row */}
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[12px] font-bold text-slate-600">
-              {["Licensed & Insured", "24/7 Emergency", "Free Estimates"].map((t) => (
-                <span key={t} className="flex items-center gap-1.5">
+              {[t("Licensed & Insured", "Con Licencia y Seguro"), t("24/7 Emergency", "Emergencia 24/7"), t("Free Estimates", "Presupuestos Gratis")].map((itemText) => (
+                <span key={itemText} className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
-                  {t}
+                  {itemText}
                 </span>
               ))}
             </div>
@@ -143,7 +146,7 @@ export function Services() {
                 to="/services"
                 className="inline-flex items-center gap-2 bg-[#FF6B00] hover:bg-[#E05E00] text-white rounded-full px-7 py-3.5 text-[13px] font-black uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(255,107,0,0.35)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
               >
-                View All Services <ArrowRight className="h-4 w-4" />
+                {t("View All Services", "Ver Todos los Servicios")} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </motion.div>
@@ -177,7 +180,7 @@ export function Services() {
           <div className="flex items-center gap-4 mb-5">
             <div className="h-px flex-1 bg-slate-200" />
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 whitespace-nowrap">
-              More Services
+              {t("More Services", "Más Servicios")}
             </span>
             <div className="h-px flex-1 bg-slate-200" />
           </div>

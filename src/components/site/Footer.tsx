@@ -6,6 +6,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import logoImg from "@/assets/logo.png";
+import { Link } from "@tanstack/react-router";
+import { useLanguage } from "@/hooks/useLanguage";
 
 // Inline SVG Social Icons for maximum reliability
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -31,31 +33,33 @@ const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const socials = [
-  { icon: FacebookIcon, href: "#", label: "Facebook" },
-  { icon: InstagramIcon, href: "#", label: "Instagram" },
+  { icon: FacebookIcon, href: "https://www.facebook.com/electricalcontractorcrop", label: "Facebook" },
+  { icon: InstagramIcon, href: "https://www.instagram.com/randeelectricalcontractorcrop/", label: "Instagram" },
   { icon: LinkedinIcon, href: "#", label: "LinkedIn" },
 ];
 
-const quickLinks = [
-  { label: "Home", href: "#hero" },
-  { label: "About Us", href: "#welcome" },
-  { label: "Our Services", href: "#services" },
-  { label: "Featured Projects", href: "#projects" },
-  { label: "Client Reviews", href: "#reviews" },
-  { label: "Apply For a Job", href: "/contact" },
-  { label: "Get In Touch", href: "#get-in-touch" },
-];
-
-const servicesLinks = [
-  { label: "Residential Electrical", href: "#services" },
-  { label: "Commercial Electrical", href: "#services" },
-  { label: "Industrial Electrical", href: "#services" },
-  { label: "Panel Upgrades", href: "#services" },
-  { label: "EV Charger Installation", href: "#services" },
-  { label: "Generator Services", href: "#services" },
-];
-
 export function Footer() {
+  const { t } = useLanguage();
+
+  const quickLinks = [
+    { label: t("Home", "Inicio"), href: "/" },
+    { label: t("About Us", "Sobre Nosotros"), href: "/about" },
+    { label: t("Our Services", "Nuestros Servicios"), href: "/services" },
+    { label: t("Featured Projects", "Proyectos Destacados"), href: "/projects" },
+    { label: t("Client Reviews", "Opiniones de Clientes"), href: "/reviews" },
+    { label: t("Apply For a Job", "Postularse para un Trabajo"), href: "/careers" },
+    { label: t("Get In Touch", "Ponerse en Contacto"), href: "/contact" },
+  ];
+
+  const servicesLinks = [
+    { label: t("Residential Electrical", "Electricidad Residencial"), href: "/services/residential" },
+    { label: t("Commercial Electrical", "Electricidad Comercial"), href: "/services/commercial" },
+    { label: t("Industrial Electrical", "Electricidad Industrial"), href: "/services/industrial" },
+    { label: t("Panel Upgrades", "Actualizaciones de Panel"), href: "/services/panel-upgrades" },
+    { label: t("EV Charger Installation", "Instalación de Cargador EV"), href: "/services/ev-charger" },
+    { label: t("Generator Services", "Servicios de Generadores"), href: "/services/generator" },
+  ];
+
   return (
     <footer className="relative bg-[#050b1a] text-white overflow-hidden border-t border-slate-900">
       {/* Background patterns */}
@@ -70,16 +74,16 @@ export function Footer() {
 
           {/* Logo & Description */}
           <div className="col-span-2 lg:col-span-4">
-            <div className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img
                 src={logoImg}
                 alt="R&E Electrical Contractor Corp Logo"
                 className="h-14 w-auto object-contain brightness-0 invert"
               />
-            </div>
+            </Link>
 
             <p className="mt-6 text-sm text-slate-400 leading-relaxed max-w-sm font-semibold">
-              Licensed, insured, and trusted electrical contractors powering homes and businesses across South Florida with safety-first craftsmanship.
+              {t("Licensed, insured, and trusted electrical contractors powering homes and businesses across South Florida with safety-first craftsmanship.", "Contratistas eléctricos autorizados, asegurados y de confianza que brindan energía a hogares y empresas en todo el sur de Florida con mano de obra que prioriza la seguridad.")}
             </p>
 
             {/* Socials row */}
@@ -106,20 +110,20 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2 bg-slate-900/40 border border-slate-800/80 rounded-xl px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Licensed &amp; Insured
+                {t("Licensed & Insured", "Con Licencia y Seguro")}
               </div>
               <div className="flex items-center gap-2 bg-slate-900/40 border border-slate-800/80 rounded-xl px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Miami-Dade Service
+                {t("Miami-Dade Service", "Servicio en Miami-Dade")}
               </div>
             </div>
           </div>
 
           {/* Quick Links Column */}
-          <Col title="Quick Links" items={quickLinks} />
+          <Col title={t("Quick Links", "Enlaces Rápidos")} items={quickLinks} />
 
           {/* Services Column */}
-          <Col title="Our Services" items={servicesLinks} />
+          <Col title={t("Our Services", "Nuestros Servicios")} items={servicesLinks} />
 
           {/* Contact & Hours Column (4-span grid layout subsplit) */}
           <div className="col-span-2 lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-6">
@@ -127,7 +131,7 @@ export function Footer() {
             {/* Contact Details */}
             <div>
               <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
-                Contact Us
+                {t("Contact Us", "Contáctenos")}
               </div>
               <ul className="space-y-4.5 text-sm">
                 <li>
@@ -169,7 +173,7 @@ export function Footer() {
                       <MapPin className="h-4 w-4 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Office</span>
+                      <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">{t("Office", "Oficina")}</span>
                       <span className="font-semibold text-white tracking-tight mt-0.5 leading-snug">
                         18730 NW 77 TH CT<br />
                         Hialeah FL 33015
@@ -183,7 +187,7 @@ export function Footer() {
             {/* Hours Info */}
             <div>
               <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
-                Service Hours
+                {t("Service Hours", "Horario de Servicio")}
               </div>
               <div className="bg-slate-900/30 border border-slate-800/80 rounded-2xl p-5">
                 <span className="text-[#FF6B00] font-black uppercase tracking-wider block mb-3 text-[10px] flex items-center gap-2">
@@ -191,13 +195,13 @@ export function Footer() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B00] opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B00]"></span>
                   </span>
-                  Emergency Line Active
+                  {t("Emergency Line Active", "Línea de Emergencia Activa")}
                 </span>
                 <p className="text-xs text-slate-400 leading-relaxed font-semibold">
-                  We are available 24/7 for emergency dispatches across Miami &amp; South Florida.<br /><br />
-                  <span className="text-white block font-bold mb-1">Standard Office:</span>
-                  Mon–Sat: 7am–7pm<br />
-                  Sun: Closed
+                  {t("We are available 24/7 for emergency dispatches across Miami & South Florida.", "Estamos disponibles 24/7 para despachos de emergencia en todo Miami y el sur de Florida.")}<br /><br />
+                  <span className="text-white block font-bold mb-1">{t("Standard Office:", "Oficina Estándar:")}</span>
+                  {t("Mon–Sat: 7am–7pm", "Lun–Sáb: 7am–7pm")}<br />
+                  {t("Sun: Closed", "Dom: Cerrado")}
                 </p>
               </div>
             </div>
@@ -208,7 +212,7 @@ export function Footer() {
         {/* Bottom Copy/Trademark Row with Back to Top trigger */}
         <div className="mt-16 pt-8 border-t border-slate-900 flex flex-wrap items-center justify-between gap-6">
           <p className="text-xs text-slate-500 font-semibold">
-            © 2026 R&amp;E Electrical Contractor Corp. All rights reserved. Design by{" "}
+            © 2026 R&amp;E Electrical Contractor Corp. {t("All rights reserved. Design by", "Todos los derechos reservados. Diseño por")}{" "}
             <a 
               href="https://stellrit.com" 
               target="_blank" 
@@ -221,7 +225,7 @@ export function Footer() {
 
           <div className="flex items-center gap-6">
             <p className="text-xs text-slate-500 font-semibold hidden sm:block">
-              License #EC13009876 · Licensed, Bonded &amp; Insured
+              License #EC13009876 · {t("Licensed, Bonded & Insured", "Con Licencia, Fianza y Seguro")}
             </p>
 
             <motion.button
@@ -230,7 +234,7 @@ export function Footer() {
               whileTap={{ scale: 0.95 }}
               className="text-xs text-slate-400 hover:text-white transition-colors font-bold flex items-center gap-2 cursor-pointer select-none"
             >
-              <span>Back to Top</span>
+              <span>{t("Back to Top", "Volver Arriba")}</span>
               <ArrowRight className="h-4 w-4 -rotate-90 text-[#FF6B00]" />
             </motion.button>
           </div>
@@ -250,14 +254,29 @@ function Col({ title, items }: { title: string; items: { label: string; href: st
       <ul className="space-y-4">
         {items.map(({ label, href }) => (
           <li key={label}>
-            <motion.a
-              whileHover={{ x: 4, color: "#FF6B00" }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              href={href}
-              className="text-sm text-slate-400 hover:text-white transition-colors block font-semibold"
-            >
-              {label}
-            </motion.a>
+            {href.startsWith("/") ? (
+              <Link
+                to={href}
+                className="text-sm text-slate-400 hover:text-white transition-colors block font-semibold hover:text-[#FF6B00]"
+              >
+                <motion.span
+                  whileHover={{ x: 4, color: "#FF6B00" }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="block"
+                >
+                  {label}
+                </motion.span>
+              </Link>
+            ) : (
+              <motion.a
+                whileHover={{ x: 4, color: "#FF6B00" }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                href={href}
+                className="text-sm text-slate-400 hover:text-white transition-colors block font-semibold"
+              >
+                {label}
+              </motion.a>
+            )}
           </li>
         ))}
       </ul>

@@ -3,6 +3,22 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Projects } from "@/components/site/Projects";
 import { EmergencyCTA } from "@/components/site/EmergencyCTA";
+import { useLanguage } from "@/hooks/useLanguage";
+
+function ProjectsPage() {
+  const { t } = useLanguage();
+  return (
+    <SiteLayout>
+      <PageHeader
+        eyebrow={t("Projects", "Proyectos")}
+        title={t("Work we're proud of.", "Trabajo del cual estamos orgullosos.")}
+        subtitle={t("A snapshot of recent installations from the R&E Electrical crew.", "Una muestra de las instalaciones recientes del equipo de R&E Electrical.")}
+      />
+      <Projects />
+      <EmergencyCTA />
+    </SiteLayout>
+  );
+}
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -13,11 +29,5 @@ export const Route = createFileRoute("/projects")({
       { property: "og:description", content: "Hand-picked recent electrical installations." },
     ],
   }),
-  component: () => (
-    <SiteLayout>
-      <PageHeader eyebrow="Projects" title="Work we're proud of." subtitle="A snapshot of recent installations from the R&E Electrical crew." />
-      <Projects />
-      <EmergencyCTA />
-    </SiteLayout>
-  ),
+  component: ProjectsPage,
 });

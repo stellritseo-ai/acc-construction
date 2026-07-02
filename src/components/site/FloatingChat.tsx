@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
+import favIcon from "@/assets/fav.png";
 
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,8 +38,8 @@ export function FloatingChat() {
             <div className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] p-4 text-white flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-full bg-[#FF6B00] flex items-center justify-center font-bold text-sm text-white select-none">
-                    R&E
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center select-none overflow-hidden p-1 border border-slate-100">
+                    <img src={favIcon} alt="R&E Logo" className="w-full h-full object-contain" />
                   </div>
                   <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-[#0F172A] animate-pulse" />
                 </div>
@@ -59,8 +60,8 @@ export function FloatingChat() {
             <div className="flex-1 p-4 max-h-[260px] overflow-y-auto bg-slate-50/50 flex flex-col gap-3.5">
               {/* Message 1 */}
               <div className="flex gap-2.5 items-start">
-                <div className="w-7 h-7 rounded-full bg-[#FF6B00] flex items-center justify-center font-bold text-xs text-white shrink-0 select-none">
-                  R&E
+                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100">
+                  <img src={favIcon} alt="R&E Logo" className="w-full h-full object-contain" />
                 </div>
                 <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-none p-3 shadow-sm text-left max-w-[80%]">
                   <p className="text-xs text-slate-800 font-semibold leading-relaxed">
@@ -152,10 +153,16 @@ export function FloatingChat() {
           setIsOpen(!isOpen);
           if (submitted) setSubmitted(false);
         }}
-        className="pointer-events-auto relative h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#E05E00] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none select-none cursor-pointer"
+        className="pointer-events-auto relative h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#E05E00] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none select-none cursor-pointer overflow-hidden p-0"
       >
         <span className="absolute inset-0 rounded-full bg-[#FF6B00] opacity-35 animate-ping -z-10" />
-        {isOpen ? <X className="h-6 w-6 sm:h-7 sm:w-7" /> : <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />}
+        {isOpen ? (
+          <X className="h-6 w-6 sm:h-7 sm:w-7" />
+        ) : (
+          <div className="h-10 w-10 sm:h-12 sm:w-12 bg-white rounded-full flex items-center justify-center p-1.5 shadow-inner">
+            <img src={favIcon} alt="Chat Logo" className="w-full h-full object-contain" />
+          </div>
+        )}
       </motion.button>
     </div>
   );

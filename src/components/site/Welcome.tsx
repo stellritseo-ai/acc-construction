@@ -5,13 +5,7 @@ import topIcon from "@/assets/topicon.png";
 import bottomIcon from "@/assets/buttomicon.png";
 import { Counter } from "./Counter";
 import { Button } from "@/components/ui/button";
-
-const checklistPoints = [
-  "New construction and residential remodeling",
-  "New construction and commercial remodeling such as buildings",
-  "Restaurants, offices, shopping centers, hotels, clinics (with electrical permits)",
-  "Service Area: Entire state of Florida",
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 const TinyLightningIcon = () => (
   <svg className="w-3.5 h-3.5 text-[#FF6B00] fill-[#FF6B00] shrink-0" viewBox="0 0 24 24">
@@ -30,6 +24,15 @@ const PointingHandIcon = () => (
 );
 
 export function Welcome() {
+  const { t } = useLanguage();
+
+  const checklistPoints = [
+    t("New construction and residential remodeling", "Construcción nueva y remodelación residencial"),
+    t("New construction and commercial remodeling such as buildings", "Construcción nueva y remodelación comercial como edificios"),
+    t("Restaurants, offices, shopping centers, hotels, clinics (with electrical permits)", "Restaurantes, oficinas, centros comerciales, hoteles, clínicas (con permisos eléctricos)"),
+    t("Service Area: Entire state of Florida", "Área de Servicio: Todo el estado de Florida"),
+  ];
+
   return (
     <section id="welcome" className="bg-white overflow-hidden py-[60px] border-b border-gray-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
@@ -40,14 +43,14 @@ export function Welcome() {
           {/* Left Column: Copy & Checklist */}
           <div className="animate-fade-up flex flex-col items-start text-left">
             <div className="flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-[#0F172A]">
-              <TinyLightningIcon /> About Us <TinyLightningIcon />
+              <TinyLightningIcon /> {t("About Us", "Sobre Nosotros")} <TinyLightningIcon />
             </div>
             <h2 className="mt-4 font-display text-[26px] sm:text-[30px] lg:text-[33px] leading-[1.35] font-extrabold text-[#0F172A]">
-              Best Electrical Company In<br className="hidden md:inline" /> Miami. Residential &amp; Commercial{" "}
-              <span className="text-[#FF6B00]">Electrical</span> Service
+              {t("Best Electrical Company In", "La Mejor Compañía Eléctrica en")}<br className="hidden md:inline" /> {t("Miami. Residential & Commercial ", "Miami. Servicio Residencial y Comercial ")}
+              <span className="text-[#FF6B00]">{t("Electrical", "Eléctrico")}</span> {t("Service", " ")}
             </h2>
             <p className="font-medium text-black mt-[13px] mb-[-15px] text-[14px] sm:text-[15px] leading-relaxed sm:leading-[32px]">
-              We have been offering a wide range of electrical services to residential, commercial and industrial customers across Miami, FL and its surrounding areas since 2009. We provide a high quality service no matter the size of the project.
+              {t("We have been offering a wide range of electrical services to residential, commercial and industrial customers across Miami, FL and its surrounding areas since 2009. We provide a high quality service no matter the size of the project.", "Hemos estado ofreciendo una amplia gama de servicios eléctricos a clientes residenciales, comerciales e industriales en Miami, FL y sus áreas circundantes desde 2009. Brindamos un servicio de alta calidad sin importar el tamaño del proyecto.")}
             </p>
 
             <ul className="mt-6 space-y-4">
@@ -61,7 +64,7 @@ export function Welcome() {
 
             <Button asChild variant="hero" size="lg" className="mt-8 font-extrabold rounded-full px-8 bg-[#FF6B00] hover:bg-[#E05E00] shadow-[0_10px_25px_-5px_rgba(255,107,0,0.4)]">
               <Link to="/about">
-                Read More <span className="ml-1 text-sm font-black">≫</span>
+                {t("Read More", "Leer Más")} <span className="ml-1 text-sm font-black">≫</span>
               </Link>
             </Button>
           </div>
@@ -90,10 +93,10 @@ export function Welcome() {
                   <Counter end={600} suffix="+" />
                 </span>
                 <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
-                  Successful Project
+                  {t("Successful Projects", "Proyectos Exitosos")}
                 </span>
                 <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 mt-0.5 lg:mt-1">
-                  Amazing Project Done
+                  {t("Amazing Project Done", "Proyectos Realizados")}
                 </span>
               </div>
             </div>
@@ -106,10 +109,10 @@ export function Welcome() {
                   <Counter end={6} suffix="+" />
                 </span>
                 <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
-                  Years Of Experience
+                  {t("Years Of Experience", "Años de Experiencia")}
                 </span>
                 <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 mt-0.5 lg:mt-1">
-                  Quality Electrical Services
+                  {t("Quality Electrical Services", "Servicios de Calidad")}
                 </span>
               </div>
             </div>
@@ -124,10 +127,10 @@ export function Welcome() {
                   <Counter end={50} suffix="+" />
                 </span>
                 <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
-                  Experienced Staff
+                  {t("Experienced Staff", "Personal Experto")}
                 </span>
                 <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 mt-0.5 lg:mt-1">
-                  Expert Electrician
+                  {t("Expert Electrician", "Electricistas Expertos")}
                 </span>
               </div>
             </div>

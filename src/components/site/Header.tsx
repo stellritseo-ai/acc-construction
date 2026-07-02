@@ -7,30 +7,33 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoImg from "@/assets/logo.png";
-
-const navItems = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About Us" },
-  { to: "/services", label: "Services" },
-  { to: "/projects", label: "Projects" },
-  { to: "/reviews", label: "Reviews" },
-  { to: "/contact", label: "Free Estimate" },
-  { to: "/contact", label: "Apply For a Job" },
-  { to: "/contact", label: "Contact Us" },
-] as const;
-
-const serviceLinks = [
-  { to: "/services/commercial", l: "New Construction Electrical", desc: "Commercial & residential system design & installations", icon: Building2 },
-  { to: "/services/wiring-rewiring", l: "Fire Alarm Systems", desc: "Safety-certified design & low-voltage wiring", icon: ShieldAlert },
-  { to: "/services/security-systems", l: "Internet & Security Cameras", desc: "Structured ethernet cabling & surveillance setups", icon: Cable },
-  { to: "/services/residential", l: "Residential Electrical", desc: "Expert home wiring, panels & custom lighting", icon: Home },
-  { to: "/services/panel-upgrades", l: "Panel Upgrades", desc: "Modernize breaker boxes & electrical capacity", icon: Zap },
-  { to: "/services/ev-charger", l: "EV Charger Installation", desc: "Level 2 home & commercial charging ports", icon: BatteryCharging },
-  { to: "/services/generator", l: "Generator Installation", desc: "Backup power & automatic transfer switches", icon: AlertTriangle },
-  { to: "/services/industrial", l: "Industrial Electrical", desc: "Heavy machinery, phase power & controls", icon: Factory },
-] as const;
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function Header() {
+  const { language, setLanguage, t } = useLanguage();
+
+  const navItems = [
+    { to: "/", label: t("Home", "Inicio") },
+    { to: "/about", label: t("About Us", "Sobre Nosotros") },
+    { to: "/services", label: t("Services", "Servicios") },
+    { to: "/projects", label: t("Projects", "Proyectos") },
+    { to: "/reviews", label: t("Reviews", "Opiniones") },
+    { to: "/contact", label: t("Free Estimate", "Presupuesto Gratis") },
+    { to: "/careers", label: t("Apply For a Job", "Postularse para un Trabajo") },
+    { to: "/contact", label: t("Contact Us", "Contáctenos") },
+  ];
+
+  const serviceLinks = [
+    { to: "/services/commercial", l: t("New Construction Electrical", "Electricidad de Nuevas Construcciones"), desc: t("Commercial & residential system design & installations", "Diseño e instalaciones de sistemas comerciales y residenciales"), icon: Building2 },
+    { to: "/services/wiring-rewiring", l: t("Fire Alarm Systems", "Sistemas de Alarma contra Incendios"), desc: t("Safety-certified design & low-voltage wiring", "Diseño con certificación de seguridad y cableado de bajo voltaje"), icon: ShieldAlert },
+    { to: "/services/security-systems", l: t("Internet & Security Cameras", "Internet y Cámaras de Seguridad"), desc: t("Structured ethernet cabling & surveillance setups", "Cableado estructurado de ethernet y configuraciones de vigilancia"), icon: Cable },
+    { to: "/services/residential", l: t("Residential Electrical", "Electricidad Residencial"), desc: t("Expert home wiring, panels & custom lighting", "Cableado de casa experto, paneles y iluminación personalizada"), icon: Home },
+    { to: "/services/panel-upgrades", l: t("Panel Upgrades", "Actualizaciones de Panel"), desc: t("Modernize breaker boxes & electrical capacity", "Modernice cajas de disyuntores y capacidad eléctrica"), icon: Zap },
+    { to: "/services/ev-charger", l: t("EV Charger Installation", "Instalación de Cargador EV"), desc: t("Level 2 home & commercial charging ports", "Puertos de carga de nivel 2 para hogares y comercios"), icon: BatteryCharging },
+    { to: "/services/generator", l: t("Generator Installation", "Instalación de Generadores"), desc: t("Backup power & automatic transfer switches", "Energía de respaldo e interruptores de transferencia automática"), icon: AlertTriangle },
+    { to: "/services/industrial", l: t("Industrial Electrical", "Electricidad Industrial"), desc: t("Heavy machinery, phase power & controls", "Maquinaria pesada, potencia de fase y controles"), icon: Factory },
+  ];
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -70,17 +73,29 @@ export function Header() {
           <div className="flex items-center gap-1.5 text-[#1E293B] min-w-0">
             <Clock className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" />
             <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight truncate">
-              <span className="hidden sm:inline">AVAILABLE 24/7 EMERGENCY SERVICES | MON–FRI, 8HRS/DAY</span>
-              <span className="inline sm:hidden">24/7 EMERGENCY SERVICE</span>
+              <span className="hidden sm:inline">{t("AVAILABLE 24/7 EMERGENCY SERVICES | MON–FRI, 8HRS/DAY", "SERVICIOS DE EMERGENCIA DISPONIBLES 24/7 | LUN–VIE, 8HRS/DÍA")}</span>
+              <span className="inline sm:hidden">{t("24/7 EMERGENCY SERVICE", "SERVICIO DE EMERGENCIA 24/7")}</span>
             </span>
           </div>
           {/* Right: Language */}
           <div className="flex items-center gap-3 text-[10px] sm:text-xs shrink-0">
-            <button className="flex items-center gap-1 text-[#1E293B] hover:text-[#FF6B00] transition font-semibold">
+            <button
+              onClick={() => setLanguage("en")}
+              className={cn(
+                "flex items-center gap-1 transition font-bold cursor-pointer select-none",
+                language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#FF6B00]"
+              )}
+            >
               <span className="text-sm leading-none">🇬🇧</span>
               <span className="hidden sm:inline">English</span>
             </button>
-            <button className="flex items-center gap-1 text-gray-400 hover:text-[#FF6B00] transition font-semibold">
+            <button
+              onClick={() => setLanguage("es")}
+              className={cn(
+                "flex items-center gap-1 transition font-bold cursor-pointer select-none",
+                language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#FF6B00]"
+              )}
+            >
               <span className="text-sm leading-none">🇪🇸</span>
               <span className="hidden sm:inline">Spanish</span>
             </button>
@@ -135,10 +150,10 @@ export function Header() {
 
           {/* Social icons */}
           <div className="flex items-center gap-2 shrink-0">
-            <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#FF6B00] hover:border-[#FF6B00] transition">
+            <a href="https://www.facebook.com/electricalcontractorcrop" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#FF6B00] hover:border-[#FF6B00] transition">
               <Facebook className="h-3.5 w-3.5" />
             </a>
-            <a href="#" aria-label="Instagram" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#FF6B00] hover:border-[#FF6B00] transition">
+            <a href="https://www.instagram.com/randeelectricalcontractorcrop/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#FF6B00] hover:border-[#FF6B00] transition">
               <Instagram className="h-3.5 w-3.5" />
             </a>
           </div>
@@ -195,7 +210,7 @@ export function Header() {
               {navItems.map((item) => {
                 const active = pathname === item.to;
 
-                if (item.label === "Services") {
+                if (item.to === "/services") {
                   return (
                     <div key={item.label} className="relative group/nav">
                       <Link
@@ -205,14 +220,14 @@ export function Header() {
                           active ? "text-[#FF6B00]" : "text-[#1E293B] hover:text-[#FF6B00]"
                         )}
                       >
-                        Services <ChevronDown className="h-3 w-3" />
+                        {t("Services", "Servicios")} <ChevronDown className="h-3 w-3" />
                       </Link>
                       {/* Dropdown — pt-2 creates a transparent bridge so hover stays active */}
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[580px] max-w-[90vw] bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-5 flex flex-col gap-3">
                           <div className="flex justify-between items-center border-b border-gray-100 pb-2">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Our Electrical Services</span>
-                            <Link to="/services" className="text-[10px] font-black uppercase text-[#FF6B00] tracking-wider hover:underline">View All →</Link>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("Our Electrical Services", "Nuestros Servicios Eléctricos")}</span>
+                            <Link to="/services" className="text-[10px] font-black uppercase text-[#FF6B00] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</Link>
                           </div>
                           <div className="grid grid-cols-2 gap-1.5">
                             {serviceLinks.map((srv) => (
@@ -238,15 +253,15 @@ export function Header() {
                                 <AlertTriangle className="h-4 w-4 animate-pulse" />
                               </div>
                               <div className="flex flex-col text-left">
-                                <span className="text-[11px] font-bold text-gray-900">Need Immediate Assistance?</span>
-                                <span className="text-[10px] text-gray-500">24/7 Rapid Response</span>
+                                <span className="text-[11px] font-bold text-gray-900">{t("Need Immediate Assistance?", "¿Necesita Ayuda Inmediata?")}</span>
+                                <span className="text-[10px] text-gray-500">{t("24/7 Rapid Response", "Respuesta Rápida 24/7")}</span>
                               </div>
                             </div>
                             <Link
                               to="/services/emergency"
                               className="bg-white border border-gray-200 hover:border-[#FF6B00] hover:text-[#FF6B00] text-gray-800 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg transition whitespace-nowrap"
                             >
-                              Emergency
+                              {t("Emergency", "Emergencia")}
                             </Link>
                           </div>
                         </div>
@@ -255,7 +270,7 @@ export function Header() {
                   );
                 }
 
-                const isEstimateActive = active && item.label !== "Free Estimate" && item.label !== "Apply For a Job";
+                const isEstimateActive = active && item.to !== "/contact";
                 return (
                   <Link
                     key={item.label}
@@ -281,7 +296,7 @@ export function Header() {
                 <Phone className="h-3.5 w-3.5 lg:h-4 lg:w-4 fill-white text-white" />
               </div>
               <div className="flex flex-col text-left leading-none">
-                <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-wider text-white/90">Call Us Now</span>
+                <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-wider text-white/90">{t("Call Us Now", "Llámenos Ahora")}</span>
                 <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">(786) 307-5933</span>
               </div>
             </a>
@@ -302,14 +317,14 @@ export function Header() {
             {navItems.map((item) => {
               const active = pathname === item.to;
 
-              if (item.label === "Services") {
+              if (item.to === "/services") {
                 return (
                   <div key="services-mobile">
                     <button
                       onClick={() => setServicesOpen((v) => !v)}
                       className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#1E293B] hover:bg-gray-50 transition"
                     >
-                      Services
+                      {t("Services", "Servicios")}
                       <ChevronDown className={cn("h-4 w-4 transition-transform", servicesOpen && "rotate-180")} />
                     </button>
                     {servicesOpen && (
@@ -329,7 +344,7 @@ export function Header() {
                           className="flex items-center gap-2 py-2 text-sm font-bold text-red-600"
                         >
                           <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-                          Emergency Service
+                          {t("Emergency Service", "Servicio de Emergencia")}
                         </Link>
                       </div>
                     )}
@@ -343,7 +358,7 @@ export function Header() {
                   to={item.to}
                   className={cn(
                     "rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors",
-                    active && item.label !== "Free Estimate" && item.label !== "Apply For a Job"
+                    active && item.to !== "/contact"
                       ? "bg-[#FF6B00]/10 text-[#FF6B00]"
                       : "text-[#1E293B] hover:bg-gray-50"
                   )}

@@ -5,6 +5,7 @@ import { EmergencyCTA } from "@/components/site/EmergencyCTA";
 import { CheckCircle2, Phone, ShieldCheck, Clock, Award, ChevronRight } from "lucide-react";
 import img from "@/assets/service-panel.jpg";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const Route = createFileRoute("/services/panel-upgrades")({
   head: () => ({
@@ -19,29 +20,40 @@ export const Route = createFileRoute("/services/panel-upgrades")({
 });
 
 function PanelUpgradesPage() {
+  const { t } = useLanguage();
+
   const serviceList = [
-    "Outdated Fuse Box Replacement",
-    "100A to 200A Service Upgrades",
-    "400A Smart Panel Installations",
-    "Federal Pacific & Zinsco Removals",
-    "Sub-Panel Installations (Garage/Workshop)",
-    "Whole-House Surge Protection Installs",
-    "Arc Fault & Ground Fault (AFCI/GFCI) Breakers",
-    "Labeling & Circuit Mapping Services",
+    t("Outdated Fuse Box Replacement", "Reemplazo de Cajas de Fusibles Anticuadas"),
+    t("100A to 200A Service Upgrades", "Actualizaciones de Servicio de 100A a 200A"),
+    t("400A Smart Panel Installations", "Instalaciones de Paneles Inteligentes de 400A"),
+    t("Federal Pacific & Zinsco Removals", "Remoción de Paneles Federal Pacific y Zinsco"),
+    t("Sub-Panel Installations (Garage/Workshop)", "Instalaciones de Sub-paneles (Garaje/Taller)"),
+    t("Whole-House Surge Protection Installs", "Instalaciones de Protección de Sobretensión para Todo el Hogar"),
+    t("Arc Fault & Ground Fault (AFCI/GFCI) Breakers", "Disyuntores de Falla de Arco y Falla a Tierra (AFCI/GFCI)"),
+    t("Labeling & Circuit Mapping Services", "Servicios de Etiquetado y Mapeo de Circuitos"),
   ];
 
   const faqs = [
-    { q: "How much does a panel upgrade cost?", a: "Costs typically range depending on the home layout, current service lines, and if utility lines need to be moved. R&E Electrical Contractor Corp provides exact, flat-rate quotes on-site so there are never any surprises." },
-    { q: "Why are Federal Pacific and Zinsco panels dangerous?", a: "These legacy panels have documented design flaws where breakers fail to trip during overload conditions. This creates extreme heat and is a major source of electrical fires." },
-    { q: "How long does the installation take?", a: "Most panel upgrades are completed in a single day. We coordinate closely with FPL (Florida Power & Light) and the city inspectors to restore power as quickly as possible, usually within 4-6 hours." },
+    {
+      q: t("How much does a panel upgrade cost?", "¿Cuánto cuesta una actualización de panel?"),
+      a: t("Costs typically range depending on the home layout, current service lines, and if utility lines need to be moved. R&E Electrical Contractor Corp provides exact, flat-rate quotes on-site so there are never any surprises.", "Los costos suelen variar según el diseño del hogar, las líneas de servicio actuales y si es necesario mover las líneas de la red pública. R&E Electrical Contractor Corp proporciona cotizaciones exactas y de tarifa fija en el sitio para que nunca haya sorpresas.")
+    },
+    {
+      q: t("Why are Federal Pacific and Zinsco panels dangerous?", "¿Por qué son peligrosos los paneles Federal Pacific y Zinsco?"),
+      a: t("These legacy panels have documented design flaws where breakers fail to trip during overload conditions. This creates extreme heat and is a major source of electrical fires.", "Estos paneles heredados tienen fallas de diseño documentadas donde los disyuntores no se disparan durante condiciones de sobrecarga. Esto genera un calor extremo y es una fuente importante de incendios eléctricos.")
+    },
+    {
+      q: t("How long does the installation take?", "¿Cuánto tiempo toma la instalación?"),
+      a: t("Most panel upgrades are completed in a single day. We coordinate closely with FPL (Florida Power & Light) and the city inspectors to restore power as quickly as possible, usually within 4-6 hours.", "La mayoría de las actualizaciones de paneles se completan en un solo día. Coordinamos estrechamente con FPL (Florida Power & Light) y los inspectores de la ciudad para restablecer la energía lo más rápido posible, generalmente en un plazo de 4 a 6 horas.")
+    }
   ];
 
   return (
     <>
       <PageHeader
-        eyebrow="Panel Upgrades"
-        title="Modern Electrical Panels for Safety & Power"
-        subtitle="Upgrade your panel to support modern appliances, EV chargers, and smart devices. Safe, fast, and fully permitted installations."
+        eyebrow={t("Panel Upgrades", "Actualizaciones de Paneles")}
+        title={t("Modern Electrical Panels for Safety & Power", "Paneles Eléctricos Modernos para Seguridad y Energía")}
+        subtitle={t("Upgrade your panel to support modern appliances, EV chargers, and smart devices. Safe, fast, and fully permitted installations.", "Actualice su panel para admitir electrodomésticos modernos, cargadores EV y dispositivos inteligentes. Instalaciones seguras, rápidas y con todos los permisos.")}
       />
 
       <section className="py-20 bg-background">
@@ -51,18 +63,15 @@ function PanelUpgradesPage() {
             <div className="space-y-10">
               <div>
                 <h2 className="font-display text-3xl font-extrabold text-secondary">
-                  Future-Proof Your Home's Electrical Capacity
+                  {t("Future-Proof Your Home's Electrical Capacity", "Prepare la Capacidad Eléctrica de su Hogar para el Futuro")}
                 </h2>
                 <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-                  Older houses typically operate on 60-amp or 100-amp electrical services, which fail to meet the demands 
-                  of modern central AC systems, electric dryers, and EV chargers. Upgrading to a 200-amp or 400-amp service 
-                  provides the capacity and safety you need. At R&E Electrical Contractor Corp, we manage the entire process, including utility coordination, 
-                  municipal permitting, and premium safety grounding.
+                  {t("Older houses typically operate on 60-amp or 100-amp electrical services, which fail to meet the demands of modern central AC systems, electric dryers, and EV chargers. Upgrading to a 200-amp or 400-amp service provides the capacity and safety you need. At R&E Electrical Contractor Corp, we manage the entire process, including utility coordination, municipal permitting, and premium safety grounding.", "Las casas más antiguas suelen operar con servicios eléctricos de 60 o 100 amperios, que no logran satisfacer las demandas de los sistemas modernos de aire acondicionado central, secadoras eléctricas y cargadores de vehículos eléctricos. Actualizar a un servicio de 200 o 400 amperios proporciona la capacidad y seguridad que necesita. En R&E Electrical Contractor Corp manejamos todo el proceso, incluyendo la coordinación con la empresa de servicios públicos, los permisos municipales y la conexión a tierra de seguridad premium.")}
                 </p>
               </div>
 
               <div className="border-t border-border pt-8">
-                <h3 className="font-display text-xl font-extrabold text-secondary">Our Specialties</h3>
+                <h3 className="font-display text-xl font-extrabold text-secondary">{t("Our Specialties", "Nuestras Especialidades")}</h3>
                 <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                   {serviceList.map((item) => (
                     <li key={item} className="flex items-center gap-2.5 text-secondary">
@@ -75,7 +84,7 @@ function PanelUpgradesPage() {
 
               {/* FAQ Section */}
               <div className="border-t border-border pt-8">
-                <h3 className="font-display text-xl font-extrabold text-secondary mb-6">Frequently Asked Questions</h3>
+                <h3 className="font-display text-xl font-extrabold text-secondary mb-6">{t("Frequently Asked Questions", "Preguntas Frecuentes")}</h3>
                 <div className="space-y-4">
                   {faqs.map((faq, idx) => (
                     <details key={idx} className="group border border-border rounded-2xl bg-muted/20 p-5 [&_summary::-webkit-details-marker]:hidden">
@@ -102,21 +111,21 @@ function PanelUpgradesPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <div className="text-xs font-bold uppercase tracking-wider text-primary">R&E Electrical Power</div>
-                  <div className="mt-1 font-display text-xl font-extrabold">200A / 400A Breaker Box Upgrades</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-primary">{t("R&E Electrical Power", "Energía R&E Electrical")}</div>
+                  <div className="mt-1 font-display text-xl font-extrabold">{t("200A / 400A Breaker Box Upgrades", "Actualizaciones de Cajas de Disyuntores 200A / 400A")}</div>
                 </div>
               </div>
 
               {/* Booking Card */}
               <div className="rounded-3xl border border-primary/20 bg-primary/5 p-8 shadow-sm">
-                <h3 className="font-display text-2xl font-extrabold text-secondary">Ready to get started?</h3>
+                <h3 className="font-display text-2xl font-extrabold text-secondary">{t("Ready to get started?", "¿Listo para comenzar?")}</h3>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                  Book a free, transparent on-site panel evaluation. We'll check your current load capacity and quote options.
+                  {t("Book a free, transparent on-site panel evaluation. We'll check your current load capacity and quote options.", "Reserve una evaluación gratuita y transparente de su panel en el sitio. Verificaremos su capacidad de carga actual y las opciones de cotización.")}
                 </p>
 
                 <div className="mt-6 space-y-3.5">
                   <Button asChild size="lg" className="w-full">
-                    <Link to="/contact">Request Estimate</Link>
+                    <Link to="/contact">{t("Request Estimate", "Solicitar Presupuesto")}</Link>
                   </Button>
                   <a
                     href="tel:+17863075933"
@@ -128,13 +137,13 @@ function PanelUpgradesPage() {
 
                 <div className="mt-6 space-y-2 text-xs font-semibold text-secondary/80">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-primary" /> Fully Licensed & Insured
+                    <ShieldCheck className="h-4 w-4 text-primary" /> {t("Fully Licensed & Insured", "Totalmente Autorizado y Asegurado")}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" /> Estimates Within 24 Hours
+                    <Clock className="h-4 w-4 text-primary" /> {t("Estimates Within 24 Hours", "Presupuestos en 24 Horas")}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Award className="h-4 w-4 text-primary" /> 100% Satisfaction Guaranteed
+                    <Award className="h-4 w-4 text-primary" /> {t("100% Satisfaction Guaranteed", "Garantía de Satisfacción del 100%")}
                   </div>
                 </div>
               </div>

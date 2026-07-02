@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Services } from "@/components/site/Services";
 import { Process } from "@/components/site/Process";
 import { EmergencyCTA } from "@/components/site/EmergencyCTA";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
@@ -17,12 +18,13 @@ export const Route = createFileRoute("/services/")({
 });
 
 function ServicesIndex() {
+  const { t } = useLanguage();
   return (
     <>
       <PageHeader
-        eyebrow="Services"
-        title="Every wire. Every watt."
-        subtitle="One licensed team for every electrical need — residential to industrial."
+        eyebrow={t("Services", "Servicios")}
+        title={t("Every wire. Every watt.", "Cada cable. Cada vatio.")}
+        subtitle={t("One licensed team for every electrical need — residential to industrial.", "Un equipo autorizado para cada necesidad eléctrica, desde residencial hasta industrial.")}
       />
       <Services />
       <Process />

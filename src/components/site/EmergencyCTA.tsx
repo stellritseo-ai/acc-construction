@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import { Phone, Clock, Zap, ShieldCheck, CheckCircle2 } from "lucide-react";
 import heroVideo from "@/assets/herovideo.mp4";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function EmergencyCTA() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative w-full overflow-hidden py-[50px] text-white bg-[#0F172A] border-y border-white/5">
       {/* Background Video */}
@@ -38,7 +41,7 @@ export function EmergencyCTA() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
               </span>
-              Emergency Dispatch Active
+              {t("Emergency Dispatch Active", "Despacho de Emergencia Activo")}
             </motion.div>
 
             <motion.h2
@@ -48,7 +51,7 @@ export function EmergencyCTA() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-[26px] sm:text-3xl lg:text-[34px] font-extrabold capitalize tracking-tight leading-tight text-white"
             >
-              Need immediate electrical assistance?
+              {t("Need immediate electrical assistance?", "¿Necesita asistencia eléctrica inmediata?")}
             </motion.h2>
 
             <motion.p
@@ -58,9 +61,7 @@ export function EmergencyCTA() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base text-white/80 max-w-xl leading-relaxed"
             >
-              Power outage? Burning smell? Sparking outlets? Don't wait and risk
-              electrical fires or injury. Our certified master electricians are on call 24/7 with
-              fully equipped response trucks.
+              {t("Power outage? Burning smell? Sparking outlets? Don't wait and risk electrical fires or injury. Our certified master electricians are on call 24/7 with fully equipped response trucks.", "¿Corte de energía? ¿Olor a quemado? ¿Tomacorrientes con chispas? No espere y se arriesgue a incendios eléctricos o lesiones. Nuestros electricistas certificados están de guardia 24/7 con camiones de respuesta totalmente equipados.")}
             </motion.p>
 
             <motion.ul
@@ -75,7 +76,7 @@ export function EmergencyCTA() {
                   <Clock className="h-3.5 w-3.5" />
                 </div>
                 <span className="text-sm font-medium">
-                  24/7 Emergency Response
+                  {t("24/7 Emergency Response", "Respuesta de Emergencia 24/7")}
                 </span>
               </li>
               <li className="flex items-center gap-3 text-white/90">
@@ -83,7 +84,7 @@ export function EmergencyCTA() {
                   <Zap className="h-3.5 w-3.5" />
                 </div>
                 <span className="text-sm font-medium">
-                  30 Min Average Arrival
+                  {t("30 Min Average Arrival", "Llegada Promedio en 30 Minutos")}
                 </span>
               </li>
               <li className="flex items-center gap-3 text-white/90">
@@ -91,7 +92,7 @@ export function EmergencyCTA() {
                   <ShieldCheck className="h-3.5 w-3.5" />
                 </div>
                 <span className="text-sm font-medium">
-                  Licensed & Insured Pros
+                  {t("Licensed & Insured Pros", "Profesionales Autorizados y Asegurados")}
                 </span>
               </li>
               <li className="flex items-center gap-3 text-white/90">
@@ -99,7 +100,7 @@ export function EmergencyCTA() {
                   <CheckCircle2 className="h-3.5 w-3.5" />
                 </div>
                 <span className="text-sm font-medium">
-                  100% Satisfaction Guarantee
+                  {t("100% Satisfaction Guarantee", "Garantía de Satisfacción del 100%")}
                 </span>
               </li>
             </motion.ul>
@@ -132,7 +133,7 @@ export function EmergencyCTA() {
                   </span>
                   <div className="text-left">
                     <span className="block text-[10px] uppercase tracking-widest text-white/80 font-bold">
-                      Emergency Hotline
+                      {t("Emergency Hotline", "Línea Directa de Emergencia")}
                     </span>
                     <span className="block text-xl sm:text-2xl font-display font-black leading-tight tracking-tight mt-0.5">
                       (786) 307-5933
@@ -145,7 +146,7 @@ export function EmergencyCTA() {
             {/* Micro-trust glass badge */}
             <div className="flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white/70 w-full max-w-sm justify-center lg:justify-start">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Electricians are active & ready to dispatch in Miami</span>
+              <span>{t("Electricians are active & ready to dispatch in Miami", "Los electricistas están activos y listos para despachar en Miami")}</span>
             </div>
           </motion.div>
         </div>

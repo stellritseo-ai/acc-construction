@@ -10,75 +10,7 @@ interface Review {
   avatarColor: string;
 }
 
-const reviews: Review[] = [
-  {
-    text: "The electrical panel upgrade they did for our home was outstanding. Professional, clean, and finished ahead of schedule. Zero issues since.",
-    name: "Marcus T.",
-    role: "Homeowner, Miami",
-    rating: 5,
-    initials: "MT",
-    avatarColor: "#1D4ED8",
-  },
-  {
-    text: "Called them for an emergency at 11pm — they arrived within 45 minutes. Fixed the issue fast. Truly 24/7 service.",
-    name: "Priya S.",
-    role: "Business Owner",
-    rating: 5,
-    initials: "PS",
-    avatarColor: "#7C3AED",
-  },
-  {
-    text: "They installed 12 EV chargers across our fleet parking lot. Flawless execution. I'll never use another electrician again.",
-    name: "Jared W.",
-    role: "Fleet Manager",
-    rating: 5,
-    initials: "JW",
-    avatarColor: "#065F46",
-  },
-  {
-    text: "Best electrical contractor in Miami. They wired our entire office renovation — on time, on budget, and zero punch list items.",
-    name: "Diana L.",
-    role: "Office Manager",
-    rating: 5,
-    initials: "DL",
-    avatarColor: "#B45309",
-  },
-  {
-    text: "Smart home integration was seamless. They set up Lutron controls, automated lighting scenes, and a whole-home surge protector.",
-    name: "Kenji M.",
-    role: "Homeowner",
-    rating: 5,
-    initials: "KM",
-    avatarColor: "#BE185D",
-  },
-  {
-    text: "Hired them for a complete rewire of a 1960s bungalow. They handled every permit, passed every inspection, amazing team.",
-    name: "Rosa F.",
-    role: "Real Estate Investor",
-    rating: 5,
-    initials: "RF",
-    avatarColor: "#0F766E",
-  },
-  {
-    text: "Generator installation was smooth and the team was incredibly knowledgeable. They explained every step and left the site spotless.",
-    name: "Tony B.",
-    role: "Restaurant Owner",
-    rating: 5,
-    initials: "TB",
-    avatarColor: "#9333EA",
-  },
-  {
-    text: "Outstanding service from start to finish. The crew was courteous, efficient, and clearly knew what they were doing. Highly recommend.",
-    name: "Sandra K.",
-    role: "Property Manager",
-    rating: 5,
-    initials: "SK",
-    avatarColor: "#DC2626",
-  },
-];
-
-const row1 = reviews.slice(0, 4);
-const row2 = reviews.slice(4, 8);
+import { useLanguage } from "@/hooks/useLanguage";
 
 function StarRating({ count }: { count: number }) {
   return (
@@ -93,9 +25,14 @@ function StarRating({ count }: { count: number }) {
   );
 }
 
-function TestimonialCard({ review }: { review: Review }) {
+import { cn } from "@/lib/utils";
+
+function TestimonialCard({ review, isGrid = false }: { review: Review; isGrid?: boolean }) {
   return (
-    <div className="relative flex-shrink-0 w-[340px] sm:w-[380px] mx-3 bg-white border border-slate-200 shadow-[0_2px_20px_rgba(0,0,0,0.06)] rounded-2xl p-6 flex flex-col gap-4 group hover:shadow-[0_6px_30px_rgba(0,0,0,0.10)] hover:border-slate-300 transition-all duration-300">
+    <div className={cn(
+      "relative bg-white border border-slate-200 shadow-[0_2px_20px_rgba(0,0,0,0.06)] rounded-2xl p-6 flex flex-col gap-4 group hover:shadow-[0_6px_30px_rgba(0,0,0,0.10)] hover:border-slate-300 transition-all duration-300",
+      isGrid ? "w-full" : "flex-shrink-0 w-[340px] sm:w-[380px] mx-3"
+    )}>
       {/* Rating */}
       <StarRating count={review.rating} />
 
@@ -163,7 +100,79 @@ function MarqueeRow({
   );
 }
 
-export function Testimonials() {
+export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
+  const { t } = useLanguage();
+
+  const reviews: Review[] = [
+    {
+      text: t("The electrical panel upgrade they did for our home was outstanding. Professional, clean, and finished ahead of schedule. Zero issues since.", "La actualización del panel eléctrico que hicieron para nuestro hogar fue excelente. Profesional, limpia y terminada antes de lo previsto. Cero problemas desde entonces."),
+      name: "Marcus T.",
+      role: t("Homeowner, Miami", "Propietario, Miami"),
+      rating: 5,
+      initials: "MT",
+      avatarColor: "#1D4ED8",
+    },
+    {
+      text: t("Called them for an emergency at 11pm — they arrived within 45 minutes. Fixed the issue fast. Truly 24/7 service.", "Los llamé por una emergencia a las 11:00 pm; llegaron en 45 minutos. Solucionaron el problema rápido. Realmente un servicio 24/7."),
+      name: "Priya S.",
+      role: t("Business Owner", "Propietario de Negocio"),
+      rating: 5,
+      initials: "PS",
+      avatarColor: "#7C3AED",
+    },
+    {
+      text: t("They installed 12 EV chargers across our fleet parking lot. Flawless execution. I'll never use another electrician again.", "Instalaron 12 cargadores EV en el estacionamiento de nuestra flota. Ejecución impecable. Nunca volveré a usar a otro electricista."),
+      name: "Jared W.",
+      role: t("Fleet Manager", "Gerente de Flota"),
+      rating: 5,
+      initials: "JW",
+      avatarColor: "#065F46",
+    },
+    {
+      text: t("Best electrical contractor in Miami. They wired our entire office renovation — on time, on budget, and zero punch list items.", "El mejor contratista eléctrico en Miami. Cablearon toda la renovación de nuestra oficina: a tiempo, dentro del presupuesto y sin detalles pendientes."),
+      name: "Diana L.",
+      role: t("Office Manager", "Administradora de Oficina"),
+      rating: 5,
+      initials: "DL",
+      avatarColor: "#B45309",
+    },
+    {
+      text: t("Smart home integration was seamless. They set up Lutron controls, automated lighting scenes, and a whole-home surge protector.", "La integración de la casa inteligente fue perfecta. Configuraron controles Lutron, escenas de iluminación automatizadas y un protector de sobretensión para todo el hogar."),
+      name: "Kenji M.",
+      role: t("Homeowner", "Propietario"),
+      rating: 5,
+      initials: "KM",
+      avatarColor: "#BE185D",
+    },
+    {
+      text: t("Hired them for a complete rewire of a 1960s bungalow. They handled every permit, passed every inspection, amazing team.", "Los contratamos para un recableado completo de un bungalow de los años 60. Se encargaron de cada permiso, pasaron cada inspección, un equipo increíble."),
+      name: "Rosa F.",
+      role: t("Real Estate Investor", "Inversor de Bienes Raíces"),
+      rating: 5,
+      initials: "RF",
+      avatarColor: "#0F766E",
+    },
+    {
+      text: t("Generator installation was smooth and the team was incredibly knowledgeable. They explained every step and left the site spotless.", "La instalación del generador fue sencilla y el equipo estuvo increíblemente capacitado. Explicaron cada paso y dejaron el lugar impecable."),
+      name: "Tony B.",
+      role: t("Restaurant Owner", "Dueño de Restaurante"),
+      rating: 5,
+      initials: "TB",
+      avatarColor: "#9333EA",
+    },
+    {
+      text: t("Outstanding service from start to finish. The crew was courteous, efficient, and clearly knew what they were doing. Highly recommend.", "Excelente servicio de principio a fin. El personal fue cortés, eficiente y claramente sabía lo que estaba haciendo. Muy recomendado."),
+      name: "Sandra K.",
+      role: t("Property Manager", "Administradora de Propiedades"),
+      rating: 5,
+      initials: "SK",
+      avatarColor: "#DC2626",
+    },
+  ];
+
+  const row1 = reviews.slice(0, 4);
+  const row2 = reviews.slice(4, 8);
+
   return (
     <section
       id="reviews"
@@ -177,28 +186,38 @@ export function Testimonials() {
       <div className="mx-auto w-[90%] max-w-7xl text-center mb-16 relative z-10">
         <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-widest mb-5 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
-          Client Reviews
+          {t("Client Reviews", "Opiniones de Clientes")}
         </div>
 
         <h2 className="text-[40px] font-extrabold text-slate-900 tracking-tight leading-tight capitalize -mt-[5px] mb-[10px]">
-          Trusted by{" "}
+          {t("Trusted by ", "Con la confianza de ")}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
-            hundreds
+            {t("hundreds", "cientos")}
           </span>{" "}
-          of customers
+          {t("of customers", "de clientes")}
         </h2>
 
-        <p className="mx-auto max-w-xl text-[#000] text-sm sm:text-base leading-relaxed -mb-[35px]">
-          Real experiences from real clients across Miami & South Florida. See
-          why homeowners and businesses choose us every time.
+        <p className={cn(
+          "mx-auto max-w-xl text-[#000] text-sm sm:text-base leading-relaxed",
+          isGrid ? "mb-0" : "-mb-[35px]"
+        )}>
+          {t("Real experiences from real clients across Miami & South Florida. See why homeowners and businesses choose us every time.", "Experiencias reales de clientes reales en todo Miami y el sur de Florida. Vea por qué los propietarios e inquilinos nos eligen siempre.")}
         </p>
       </div>
 
-      {/* Marquee Rows */}
-      <div className="relative z-10 flex flex-col gap-5">
-        <MarqueeRow items={row1} direction="left" />
-        <MarqueeRow items={row2} direction="right" />
-      </div>
+      {/* Grid or Marquee View */}
+      {isGrid ? (
+        <div className="mx-auto w-[90%] max-w-7xl relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+          {reviews.map((review, idx) => (
+            <TestimonialCard key={idx} review={review} isGrid={true} />
+          ))}
+        </div>
+      ) : (
+        <div className="relative z-10 flex flex-col gap-5">
+          <MarqueeRow items={row1} direction="left" />
+          <MarqueeRow items={row2} direction="right" />
+        </div>
+      )}
 
       {/* CSS Animations */}
       <style>{`
