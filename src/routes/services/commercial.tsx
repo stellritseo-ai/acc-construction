@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/commercial")({
       { property: "og:title", content: "Commercial Electrical Services | R&E Electrical" },
       { property: "og:description", content: "Licensed commercial electrical solutions for South Florida businesses." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/commercial" }
+    ],
   }),
   component: CommercialPage,
 });
@@ -48,8 +51,60 @@ function CommercialPage() {
     }
   ];
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.randeelectrical.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://www.randeelectrical.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Commercial Electrical",
+        "item": "https://www.randeelectrical.com/services/commercial"
+      }
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Commercial Electrical Services",
+    "serviceType": "Commercial Electrical Services",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "R&E Electrical Contractor Corp",
+      "telephone": "+17863075933",
+      "image": "https://www.randeelectrical.com/assets/logo.png",
+      "priceRange": "$$"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "Florida"
+    },
+    "description": "Professional, licensed commercial electrical installations, office build-outs, tenant improvements, and retail lighting across South Florida."
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <PageHeader
         eyebrow={t("Commercial Services", "Servicios Comerciales")}
         title={t("Powering Your Business Operations", "Energizando las Operaciones de su Negocio")}

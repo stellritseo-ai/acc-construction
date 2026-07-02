@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/panel-upgrades")({
       { property: "og:title", content: "Electrical Panel Upgrades | R&E Electrical" },
       { property: "og:description", content: "Upgrade to a safe, modern electrical panel with R&E Electrical Contractor Corp." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/panel-upgrades" }
+    ],
   }),
   component: PanelUpgradesPage,
 });
@@ -23,13 +26,6 @@ function PanelUpgradesPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("Outdated Fuse Box Replacement", "Reemplazo de Cajas de Fusibles Anticuadas"),
-    t("100A to 200A Service Upgrades", "Actualizaciones de Servicio de 100A a 200A"),
-    t("400A Smart Panel Installations", "Instalaciones de Paneles Inteligentes de 400A"),
-    t("Federal Pacific & Zinsco Removals", "Remoción de Paneles Federal Pacific y Zinsco"),
-    t("Sub-Panel Installations (Garage/Workshop)", "Instalaciones de Sub-paneles (Garaje/Taller)"),
-    t("Whole-House Surge Protection Installs", "Instalaciones de Protección de Sobretensión para Todo el Hogar"),
-    t("Arc Fault & Ground Fault (AFCI/GFCI) Breakers", "Disyuntores de Falla de Arco y Falla a Tierra (AFCI/GFCI)"),
     t("Labeling & Circuit Mapping Services", "Servicios de Etiquetado y Mapeo de Circuitos"),
   ];
 

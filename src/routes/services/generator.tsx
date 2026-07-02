@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/generator")({
       { property: "og:title", content: "Generator Installation | R&E Electrical" },
       { property: "og:description", content: "Never lose power again with R&E Electrical Contractor Corp standby generator systems." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/generator" }
+    ],
   }),
   component: GeneratorPage,
 });
@@ -23,24 +26,24 @@ function GeneratorPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("Whole-Home Standby Generator Setup", "Instalación de Generador de Respaldo para Todo el Hogar"),
-    t("Generac & Kohler Certified Installs", "Instalaciones Certificadas Generac y Kohler"),
+    t("Generac Standby Generator Home Installations", "Instalaciones de Generadores de Respaldo Generac"),
+    t("Kohler Whole-House Generator Setups", "Configuraciones de Generadores para Toda la Casa Kohler"),
     t("Automatic Transfer Switch (ATS) Wiring", "Cableado de Interruptor de Transferencia Automática (ATS)"),
-    t("Manual Transfer Switch Receptacles", "Receptáculos de Interruptor de Transferencia Manual"),
-    t("Interlock Kit Installations (Portable Generators)", "Instalaciones de Kit de Enclavamiento (Generadores Portátiles)"),
-    t("Annual Maintenance & Testing Audits", "Auditorías de Mantenimiento y Pruebas Anuales"),
-    t("Propane or Natural Gas Line Coordination", "Coordinación de Líneas de Gas Propano o Natural"),
-    t("Surge Protection & Safety Grounding", "Protección contra Sobretensiones y Conexión a Tierra de Seguridad"),
+    t("Liquid Propane & Natural Gas Fuel Hookup Setup", "Configuración de Conexión de Combustible de Gas Natural y Propano Líquido"),
+    t("Annual Maintenance, Filters & Battery Checks", "Mantenimiento Anual, Reemplazos de Filtros y Baterías"),
+    t("Manual Interlock Kit Installations (Portable Generators)", "Instalaciones de Kits de Enclavamiento Manual (Generadores Portátiles)"),
+    t("Concrete Equipment Pad & Anchor Installation", "Instalación de Anclajes y Plataformas de Concreto para Equipos"),
+    t("Smart Wireless Power Monitoring Integration", "Integración de Monitoreo Inteligente de Energía Inalámbrica"),
   ];
 
   const faqs = [
     {
       q: t("How does a standby generator work?", "¿Cómo funciona un generador de respaldo?"),
-      a: t("A standby generator is permanently installed outside your home, similar to an AC unit. It connects to your home's fuel source (natural gas or liquid propane) and monitors incoming utility power. Within seconds of an outage, it starts automatically and transfer switches shift your home's load to the generator.", "Un generador de respaldo se instala permanentemente fuera de su hogar, similar a una unidad de aire acondicionado. Se conecta a la fuente de combustible de su hogar (gas natural o propano líquido) y monitorea la energía de la red pública entrante. A los pocos segundos de un corte de energía, arranca automáticamente y los interruptores de transferencia cambian la carga de su hogar al generador.")
+      a: t("A standby generator is permanently installed outside your home, much like a central AC unit. It connects directly to your fuel line (propane or natural gas). When utility power goes out, the automatic transfer switch (ATS) detects the loss and turns the generator on, transferring power to your home in seconds.", "Un generador de respaldo se instala de forma permanente fuera de su hogar, al igual que una unidad de aire acondicionado central. Se conecta directamente a su línea de combustible (propano o gas natural). Cuando se corta la energía de la red, el interruptor de transferencia automática (ATS) detecta la pérdida y enciende el generador, transfiriendo la energía a su hogar en segundos.")
     },
     {
       q: t("What size generator do I need for my home?", "¿Qué tamaño de generador necesito para mi hogar?"),
-      a: t("This depends on what appliances you want to run. A 20-22kW standby generator can power a typical medium-to-large Miami home, including central air conditioning, refrigeration, and cooking appliances. We perform a precise sizing audit on-site.", "Esto depende de qué electrodomésticos quiera hacer funcionar. Un generador de respaldo de 20-22kW puede alimentar una casa típica de tamaño mediano a grande en Miami, incluyendo aire acondicionado central, refrigeración y electrodomésticos de cocina. Realizamos una auditoría de dimensionamiento precisa en el sitio.")
+      a: t("This depends on the square footage of your home and which appliances you want to run. A 22kW generator is the most popular choice for standard South Florida homes, as it can power the central AC, refrigeration, lighting, and kitchen appliances simultaneously.", "Esto depende de los pies cuadrados de su hogar y qué electrodomésticos desea hacer funcionar. Un generador de 22kW es la opción más popular para los hogares estándar del sur de Florida, ya que puede hacer funcionar el aire acondicionado central, la refrigeración, la iluminación y los electrodomésticos de la cocina simultáneamente.")
     },
     {
       q: t("Do you handle city permits and concrete pads?", "¿Se encargan de los permisos de la ciudad y las plataformas de concreto?"),
@@ -48,8 +51,60 @@ function GeneratorPage() {
     }
   ];
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.randeelectrical.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://www.randeelectrical.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Generator Installation",
+        "item": "https://www.randeelectrical.com/services/generator"
+      }
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Generator Installation",
+    "serviceType": "Generator Installation",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "R&E Electrical Contractor Corp",
+      "telephone": "+17863075933",
+      "image": "https://www.randeelectrical.com/assets/logo.png",
+      "priceRange": "$$"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "Florida"
+    },
+    "description": "Professional, licensed backup generator installations. Generac and Kohler certified installers. Automatic transfer switches in Florida."
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <PageHeader
         eyebrow={t("Backup Generators", "Generadores de Respaldo")}
         title={t("Uninterrupted Power with Standby Generators", "Energía Ininterrumpida con Generadores de Respaldo")}

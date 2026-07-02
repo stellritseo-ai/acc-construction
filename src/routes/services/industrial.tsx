@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/industrial")({
       { property: "og:title", content: "Industrial Electrical Services | R&E Electrical" },
       { property: "og:description", content: "Licensed industrial electrical solutions for South Florida." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/industrial" }
+    ],
   }),
   component: IndustrialPage,
 });
@@ -23,24 +26,24 @@ function IndustrialPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("3-Phase Power Distribution Systems", "Sistemas de Distribución de Energía Trifásica"),
-    t("Motor Control Centers & VFD Install", "Instalación de Centros de Control de Motores y VFD"),
-    t("Heavy Machinery & Equipment Hookups", "Conexiones de Maquinaria y Equipos Pesados"),
-    t("PLC Cabinet Wiring & Program Integration", "Cableado de Gabinetes PLC e Integración de Programas"),
-    t("Industrial Facility Power Audits", "Auditorías de Energía de Instalaciones Industriales"),
-    t("Hazardous Location (Classified) Wiring", "Cableado de Lugares Peligrosos (Clasificados)"),
-    t("Busway & Cable Tray System Installs", "Instalación de Sistemas de Vías de Autobús y Bandejas de Cables"),
-    t("High-Voltage Transformer Upgrades", "Actualizaciones de Transformadores de Alto Voltaje"),
+    t("Three-Phase Power Distribution Wiring", "Cableado de Distribución de Energía Trifásica"),
+    t("Heavy Industrial Machinery & Equipment Hookups", "Conexiones de Maquinaria y Equipos Industriales Pesados"),
+    t("Motor Control Center (MCC) Setups & Repairs", "Instalaciones y Reparaciones de Centros de Control de Motores (MCC)"),
+    t("High-Voltage Conduit Runs & Cable Tray Installs", "Instalaciones de Bandejas de Cables y Conductos de Alto Voltaje"),
+    t("Facility Electrical Load Testing & Audits", "Pruebas y Auditorías de Carga Eléctrica de Instalaciones"),
+    t("Industrial Backup Generator & Transfer Systems", "Sistemas de Transferencia y Generadores de Respaldo Industriales"),
+    t("Transformer Installation & Step-Down Wiring", "Instalación de Transformadores y Cableado Reductor"),
+    t("Hazardous Location Explosion-Proof Wiring", "Cableado a Prueba de Explosiones en Ubicaciones Peligrosas"),
   ];
 
   const faqs = [
     {
-      q: t("Do your technicians follow OSHA and NFPA standards?", "¿Sus técnicos siguen los estándares de OSHA y NFPA?"),
-      a: t("Yes. Safety is our absolute priority. Our industrial team wears complete PPE and strictly adheres to OSHA, NEC, and NFPA 70E (Electrical Safety in the Workplace) safety standards.", "Sí. La seguridad es nuestra prioridad absoluta. Nuestro equipo industrial utiliza el EPP completo y se adhiere estrictamente a los estándares de seguridad de OSHA, NEC y NFPA 70E (Seguridad Eléctrica en el Lugar de Trabajo).")
+      q: t("What is the difference between single-phase and three-phase power?", "¿Cuál es la diferencia entre la energía monofásica y trifásica?"),
+      a: t("Single-phase is common for residential homes (120/240V). Three-phase uses three active wires, delivering steadier power levels and higher capacity, which is essential for heavy industrial motors, compressors, and manufacturing equipment.", "La monofásica es común para hogares residenciales (120/240V). La trifásica utiliza tres cables activos, ofreciendo niveles de energía más constantes y mayor capacidad, lo cual es esencial para motores industriales pesados, compresores y equipos de fabricación.")
     },
     {
-      q: t("What industrial industries do you service?", "¿A qué sectores industriales brindan servicio?"),
-      a: t("R&E Electrical Contractor Corp works with warehouses, manufacturing lines, recycling facilities, packaging plants, food & beverage facilities, and distribution centers across South Florida.", "R&E Electrical Contractor Corp trabaja con almacenes, líneas de producción, instalaciones de reciclaje, plantas de empaque, instalaciones de alimentos y bebidas, y centros de distribución en todo el sur de Florida.")
+      q: t("Do you coordinate with utility providers like FPL for service upgrades?", "¿Coordinan con proveedores de servicios públicos como FPL para actualizaciones de servicios?"),
+      a: t("Yes. We manage full utility engineering coordination with Florida Power & Light to upgrade transformer vaults, high-amp CT cabinets, and main switchgear systems safely.", "Sí. Gestionamos la coordinación completa de ingeniería de servicios públicos con Florida Power & Light para actualizar bóvedas de transformadores, gabinetes de CT de alto amperaje y sistemas de tableros de distribución principales de manera segura.")
     },
     {
       q: t("Do you offer industrial backup generator integration?", "¿Ofrecen integración de generadores de respaldo industriales?"),
@@ -48,8 +51,60 @@ function IndustrialPage() {
     }
   ];
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.randeelectrical.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://www.randeelectrical.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Industrial Electrical",
+        "item": "https://www.randeelectrical.com/services/industrial"
+      }
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Industrial Electrical Services",
+    "serviceType": "Industrial Electrical Services",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "R&E Electrical Contractor Corp",
+      "telephone": "+17863075933",
+      "image": "https://www.randeelectrical.com/assets/logo.png",
+      "priceRange": "$$"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "Florida"
+    },
+    "description": "Professional, licensed industrial electrical installations, 3-phase power distribution, motor controls, and heavy machinery hookups across South Florida."
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <PageHeader
         eyebrow={t("Industrial Services", "Servicios Industriales")}
         title={t("Heavy-Duty Power for Industrial Facilities", "Energía de Alta Potencia para Instalaciones Industriales")}

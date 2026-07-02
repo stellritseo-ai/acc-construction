@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/security-systems")({
       { property: "og:title", content: "Security Systems & Low-Voltage | R&E Electrical" },
       { property: "og:description", content: "Expert commercial and residential low-voltage cabling solutions." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/security-systems" }
+    ],
   }),
   component: SecurityPage,
 });
@@ -23,14 +26,14 @@ function SecurityPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("IP Security Camera Conduit & Wiring", "Cableado y Conductos de Cámaras de Seguridad IP"),
-    t("Access Control Systems (Card Readers/Keypads)", "Sistemas de Control de Acceso (Lectores de Tarjetas/Teclados)"),
-    t("Smart Video Doorbell Installations", "Instalaciones de Timbres con Video Inteligentes"),
-    t("Low-Voltage Landscape & Accent Lighting", "Iluminación de Acento y de Paisaje de Bajo Voltaje"),
-    t("Structured Ethernet & Network Cabling", "Cableado de Red y Ethernet Estructurado"),
-    t("Intercom & Commercial Paging Systems", "Sistemas de Intercomunicación y Megafonía Comercial"),
-    t("Surround Sound & Home Theater Low-Voltage", "Bajo Voltaje para Sonido Envolvente y Cine en Casa"),
-    t("Smart Lock Integration & Power Wiring", "Integración de Cerraduras Inteligentes y Cableado de Energía"),
+    t("CCTV Security Camera Low-Voltage Cabling (IP/Coax)", "Cableado de Bajo Voltaje de Cámaras de Seguridad CCTV (IP/Coaxial)"),
+    t("Access Control Card Readers & Magnetic Lock Wiring", "Cableado de Lectores de Tarjetas de Control de Acceso y Cerraduras Magnéticas"),
+    t("Cat6 & Fiber Optic Network Structure Cabling", "Cableado de Red Estructurada Cat6 y Fibra Óptica"),
+    t("Smart Video Doorbells & Intercom Integrations", "Integraciones de Intercomunicadores y Timbres con Video Inteligente"),
+    t("Commercial Fire Alarm Control Conduit Systems", "Sistemas de Conductos de Control de Alarma de Incendio Comercial"),
+    t("Whole-Home & Office Wi-Fi Access Point Wiring", "Cableado de Puntos de Acceso Wi-Fi para Todo el Hogar y la Oficina"),
+    t("Low-Voltage Landscape Lighting Control Systems", "Sistemas de Control de Iluminación de Paisaje de Bajo Voltaje"),
+    t("Ceiling Cable Tray & J-Hook Wire Routing Systems", "Sistemas de Enrutamiento de Cables con Ganchos en J y Bandejas de Cables"),
   ];
 
   const faqs = [

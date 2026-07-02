@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/wiring-rewiring")({
       { property: "og:title", content: "Wiring & Rewiring Services | R&E Electrical" },
       { property: "og:description", content: "Safe, expert electrical wiring solutions for South Florida." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/wiring-rewiring" }
+    ],
   }),
   component: WiringPage,
 });
@@ -23,14 +26,14 @@ function WiringPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("Whole-Home Structural Rewiring", "Re-cableado Estructural de Todo el Hogar"),
-    t("Knob & Tube Wiring Removals & Mitigation", "Remoción y Mitigación de Cableado de Tubo y Perilla"),
-    t("Aluminum Wiring Safety Upgrades & Remediation", "Actualizaciones de Seguridad y Mitigación de Cableado de Aluminio"),
-    t("Dedicated Circuits (Refrigeration, AC, EV)", "Circuitos Dedicados (Refrigeración, Aire Acondicionado, EV)"),
-    t("Resolving Electrical Code Violations", "Resolución de Violaciones del Código Eléctrico"),
-    t("Low-Voltage Smart Home Wiring", "Cableado de Bajo Voltaje para Casas Inteligentes"),
-    t("Outdoor & Landscape Lighting Wiring", "Cableado de Iluminación Exterior y de Paisaje"),
-    t("Commercial Conduit & Cable Tray Runs", "Instalaciones de Bandejas de Cables y Conductos Comerciales"),
+    t("Whole-House Copper Structural Rewiring", "Recableado Estructural de Cobre para Todo el Hogar"),
+    t("Aluminum Wiring Remediation & AlumiConn Mitigations", "Remediación de Cableado de Aluminio y Mitigaciones AlumiConn"),
+    t("Outdated Knob & Tube Wiring Safety Removal", "Eliminación Segura de Cableado Antiguo de Perilla y Tubo"),
+    t("New Appliance Dedicated 120V/240V Circuit Runs", "Tendido de Circuitos Dedicados de 120V/240V para Nuevos Electrodomésticos"),
+    t("GFCI & AFCI Safety Code Corrections", "Correcciones del Código de Seguridad GFCI y AFCI"),
+    t("Kitchen, Bath & Home Addition Wiring Setups", "Configuraciones de Cableado para Adiciones de Cocina, Baño y Hogar"),
+    t("Faulty Structural Wiring Troubleshooting & Repairs", "Resolución de Problemas y Reparaciones de Cableado Estructural Defectuoso"),
+    t("Hot Tub, Pool Pump & RV Receptacle Cabling", "Cableado de Jacuzzis, Bombas de Piscina y Receptáculos para RV"),
   ];
 
   const faqs = [

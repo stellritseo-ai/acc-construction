@@ -106,7 +106,7 @@ export function Welcome() {
               <div className="w-10 h-10 lg:w-14 lg:h-14 shrink-0" />
               <div className="flex flex-col text-left">
                 <span className="font-display text-3xl lg:text-5xl font-black text-[#0F172A] leading-none">
-                  <Counter end={6} suffix="+" />
+                  <Counter end={17} suffix="+" />
                 </span>
                 <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
                   {t("Years Of Experience", "Años de Experiencia")}

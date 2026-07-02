@@ -16,7 +16,7 @@ export function WhyChooseUs() {
     { title: t("Licensed & Insured", "Con Licencia y Seguro"), desc: t("Fully licensed master electricians with $2M liability coverage.", "Electricistas maestros totalmente autorizados con cobertura de responsabilidad civil de $2M.") },
     { title: t("Fast Response Time", "Tiempo de Respuesta Rápido"), desc: t("Same-day quotes and emergency dispatch within 60 minutes.", "Cotizaciones el mismo día y despacho de emergencia en menos de 60 minutos.") },
     { title: t("Transparent Pricing", "Precios Transparentes"), desc: t("Flat-rate quotes signed off before any work begins.", "Cotizaciones de tarifa fija firmadas antes de que comience cualquier trabajo.") },
-    { title: t("Experienced Electricians", "Electricistas Experimentados"), desc: t("15+ years average tenure. Background-checked technicians.", "Más de 15 años de experiencia promedio. Técnicos con verificación de antecedentes.") },
+    { title: t("Experienced Electricians", "Electricistas Experimentados"), desc: t("17+ years average tenure. Background-checked technicians.", "Más de 17 años de experiencia promedio. Técnicos con verificación de antecedentes.") },
     { title: t("Emergency Support", "Soporte de Emergencia"), desc: t("24/7 hotline for power outages, breakers, and hazards.", "Línea directa 24/7 para cortes de energía, disyuntores y peligros.") },
     { title: t("Satisfaction Guarantee", "Garantía de Satisfacción"), desc: t("Workmanship warranty on every installation we deliver.", "Garantía de mano de obra en cada instalación que entregamos.") },
   ];

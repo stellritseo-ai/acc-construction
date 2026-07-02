@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/ev-charger")({
       { property: "og:title", content: "EV Charger Installation | R&E Electrical" },
       { property: "og:description", content: "Get your home or business Level 2 EV charging ready." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/ev-charger" }
+    ],
   }),
   component: EvChargerPage,
 });
@@ -23,24 +26,24 @@ function EvChargerPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("Tesla Wall Connector Installation", "Instalación de Conector de Pared Tesla"),
-    t("Universal Level 2 Home Charger Setups", "Configuración de Cargador de Hogar Universal Nivel 2"),
-    t("NEMA 14-50 240V Outlet Installations", "Instalaciones de Tomacorrientes NEMA 14-50 240V"),
-    t("Commercial EV Fleet Charging Stations", "Estaciones de Carga EV para Flotas Comerciales"),
-    t("Load Management & Sub-Panel Wiring", "Gestión de Carga y Cableado de Sub-paneles"),
-    t("Multi-Family & Condo EV Charging Systems", "Sistemas de Carga EV para Condominios y Multifamiliares"),
-    t("City Permit & Safety Compliance Inspections", "Inspecciones de Permiso de la Ciudad y Cumplimiento de Seguridad"),
-    t("Smart Wi-Fi Enabled Charger Setup", "Configuración de Cargador Inteligente Habilitado para Wi-Fi"),
+    t("Tesla Wall Connector Home Installations", "Instalaciones Domésticas de Tesla Wall Connector"),
+    t("ChargePoint & JuiceBox Level 2 Setups", "Configuraciones de Nivel 2 de ChargePoint y JuiceBox"),
+    t("Dedicated 240V NEMA 14-50 Receptacles", "Receptáculos Dedicados de 240V NEMA 14-50"),
+    t("Commercial & Fleet EV Charging Stations", "Estaciones de Carga de EV Comerciales y para Flotas"),
+    t("Electrical Panel Capacity Load Calculation", "Cálculo de Carga de Capacidad de Panel Eléctrico"),
+    t("Outdoor All-Weather Charger Mounting", "Montaje de Cargador para Todo Clima en Exteriores"),
+    t("Dual-Port High-Speed Charging Setups", "Configuraciones de Carga Rápida de Puerto Doble"),
+    t("Smart Wi-Fi Charger Setup & Integration", "Configuración e Integración de Cargadores Inteligentes Wi-Fi"),
   ];
 
   const faqs = [
     {
-      q: t("What is the difference between Level 1 and Level 2 charging?", "¿Cuál es la diferencia entre la carga de Nivel 1 y Nivel 2?"),
-      a: t("Level 1 uses a standard 120V outlet and adds only 3-5 miles of range per hour. Level 2 uses a 240V circuit and adds 25-50 miles of range per hour, fully charging most vehicles overnight.", "El Nivel 1 usa un tomacorriente estándar de 120V y agrega solo 3-5 millas de rango por hora. El Nivel 2 usa un circuito de 240V y agrega de 25 a 50 millas de rango por hora, cargando completamente la mayoría de los vehículos durante la noche.")
+      q: t("How fast does a Level 2 EV charger power a vehicle?", "¿Qué tan rápido carga un vehículo un cargador de EV Nivel 2?"),
+      a: t("A Level 2 charger (240V) typically adds 25 to 45 miles of range per hour, meaning it will fully charge most electric vehicles overnight. In comparison, a standard 120V outlet adds only 3-5 miles per hour.", "Un cargador Nivel 2 (240V) generalmente agrega de 25 a 45 millas de alcance por hora, lo que significa que cargará por completo la mayoría de los vehículos eléctricos durante la noche. En comparación, un tomacorriente estándar de 120V agrega solo 3-5 millas por hora.")
     },
     {
-      q: t("Will I need to upgrade my electrical panel for an EV charger?", "¿Necesitaré actualizar mi panel eléctrico para un cargador EV?"),
-      a: t("Not always. We perform a load calculation on your current panel. If you have a 200-amp panel, you usually have room. For 100-amp panels, a load-shedding device or minor upgrade might be needed.", "No siempre. Realizamos un cálculo de carga en su panel actual. Si tiene un panel de 200 amperios, generalmente tiene espacio. Para paneles de 100 amperios, podría ser necesario un dispositivo de desconexión de carga o una actualización menor.")
+      q: t("Do I need to upgrade my electrical panel to install a charger?", "¿Necesito actualizar mi panel eléctrico para instalar un cargador?"),
+      a: t("It depends on your current service capacity (typically 100A or 200A) and existing appliance loads. We carry out detailed load calculations to determine if a subpanel or a full panel upgrade is required.", "Depende de su capacidad de servicio actual (generalmente 100A o 200A) y las cargas de los electrodomésticos existentes. Realizamos cálculos de carga detallados para determinar si se requiere un subpanel o una actualización de panel completa.")
     },
     {
       q: t("Are there tax credits or utility rebates available?", "¿Hay créditos fiscales o reembolsos de servicios públicos disponibles?"),
@@ -48,8 +51,60 @@ function EvChargerPage() {
     }
   ];
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.randeelectrical.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://www.randeelectrical.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "EV Charger Installation",
+        "item": "https://www.randeelectrical.com/services/ev-charger"
+      }
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "EV Charger Installation",
+    "serviceType": "EV Charger Installation",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "R&E Electrical Contractor Corp",
+      "telephone": "+17863075933",
+      "image": "https://www.randeelectrical.com/assets/logo.png",
+      "priceRange": "$$"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "Florida"
+    },
+    "description": "Professional, licensed Level 2 home EV charger installations. Certified Tesla, ChargePoint, and generic charger setup in Florida."
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <PageHeader
         eyebrow={t("EV Charging", "Carga de EV")}
         title={t("Fast & Secure EV Charger Installations", "Instalaciones Rápidas y Seguras de Cargadores EV")}

@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/residential")({
       { property: "og:title", content: "Residential Electrical Services | R&E Electrical" },
       { property: "og:description", content: "Safe, expert residential electrical solutions." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/residential" }
+    ],
   }),
   component: ResidentialPage,
 });
@@ -23,13 +26,6 @@ function ResidentialPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("Whole-Home Rewiring & Cable Replacement", "Re-cableado Completo de la Casa y Reemplazo de Cables"),
-    t("Smart Lighting & Home Automation Setup", "Configuración de Iluminación Inteligente y Automatización del Hogar"),
-    t("Recessed LED Lighting Installations", "Instalaciones de Iluminación LED Empotrada"),
-    t("Ceiling Fan & Fixture Installations", "Instalaciones de Ventiladores de Techo y Accesorios"),
-    t("Surge Protection & Safety Inspections", "Protección contra Sobretensiones e Inspecciones de Seguridad"),
-    t("Outlet, GFCIs & Switch Replacements", "Reemplazos de Tomacorrientes, GFCIs e Interruptores"),
-    t("Sub-Panel Installations & Capacity Upgrades", "Instalaciones de Sub-paneles y Actualizaciones de Capacidad"),
     t("Remodeling & Kitchen/Bath Additions", "Remodelación y Adiciones en Cocinas/Baños"),
   ];
 

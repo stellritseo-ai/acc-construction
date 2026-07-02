@@ -15,6 +15,9 @@ export const Route = createFileRoute("/services/emergency")({
       { property: "og:title", content: "24/7 Emergency Electrical | R&E Electrical" },
       { property: "og:description", content: "Rapid emergency electrical response across Florida." },
     ],
+    links: [
+      { rel: "canonical", href: "https://www.randeelectrical.com/services/emergency" }
+    ],
   }),
   component: EmergencyPage,
 });
@@ -23,14 +26,14 @@ function EmergencyPage() {
   const { t } = useLanguage();
 
   const serviceList = [
-    t("Complete Power Outage Diagnostics", "Diagnóstico de Corte de Energía Completo"),
-    t("Sparking Receptacle & Switch Inspections", "Inspecciones de Interruptores y Tomacorrientes con Chispas"),
-    t("Melted or Overheated Breaker Replacements", "Reemplazo de Disyuntores Derretidos o Recalentados"),
-    t("Restoring Power to Critical Circuits", "Restablecimiento de Energía en Circuitos Críticos"),
-    t("Storm & Water Damage Electrical Safety Cuts", "Cortes de Seguridad Eléctrica por Daños de Tormentas y Agua"),
-    t("Burnt Electrical Odor Diagnostics", "Diagnóstico de Olor a Quemado Eléctrico"),
-    t("Tripping Main Breaker Troubleshooting", "Resolución de Problemas de Disparo del Disyuntor Principal"),
-    t("Emergency Generator Temporary Hookups", "Conexiones Temporales de Generador de Emergencia"),
+    t("Partial or Complete Home Power Outages", "Cortes de Energía Parciales o Completos en el Hogar"),
+    t("Crackling, Humming, or Smoking Breaker Boxes", "Cajas de Disyuntores con Humo, Zumbidos o Crujidos"),
+    t("Storm Damage & Flooded Electrical Equipment", "Daños por Tormentas y Equipos Eléctricos Inundados"),
+    t("Faulty Main Breakers & Blown Service Fuses", "Disyuntores Principales Defectuosos y Fusibles de Servicio Quemados"),
+    t("Commercial & Retail Emergency Response", "Respuesta de Emergencia Comercial y Minorista"),
+    t("Industrial Machinery Electrical Fault Repair", "Reparación de Fallas Eléctricas en Maquinaria Industrial"),
+    t("Burnt Receptacles & Wiring Melted insulation", "Receptáculos Quemados y Aislamiento de Cableado Derretido"),
+    t("Short Circuit Diagnostics & Load Stabilization", "Diagnóstico de Cortocircuitos y Estabilización de Carga"),
   ];
 
   const faqs = [

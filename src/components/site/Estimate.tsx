@@ -11,15 +11,46 @@ import { useLanguage } from "@/hooks/useLanguage";
 export function Estimate() {
   const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
+  const [service, setService] = useState("");
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
+    
+    const form = e.currentTarget;
+    const name = (form.querySelector("#name") as HTMLInputElement)?.value || "";
+    const phone = (form.querySelector("#phone") as HTMLInputElement)?.value || "";
+    const email = (form.querySelector("#email") as HTMLInputElement)?.value || "";
+    const msg = (form.querySelector("#msg") as HTMLTextAreaElement)?.value || "";
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Name: name,
+          Phone: phone,
+          Email: email,
+          "Service Needed": service || "General Inquiry",
+          Message: msg
+        })
+      });
+
+      if (response.ok) {
+        toast.success(t("Thanks! We'll be in touch within 24 hours.", "¡Gracias! Nos pondremos en contacto dentro de las 24 horas."));
+        form.reset();
+        setService("");
+      } else {
+        toast.error(t("Submission failed. Please try again.", "Error en el envío. Por favor, inténtelo de nuevo."));
+      }
+    } catch (err) {
+      toast.error(t("Connection error. Please try again.", "Error de conexión. Por favor, inténtelo de nuevo."));
+    } finally {
       setSubmitting(false);
-      toast.success(t("Thanks! We'll be in touch within 24 hours.", "¡Gracias! Nos pondremos en contacto dentro de las 24 horas."));
-      (e.target as HTMLFormElement).reset();
-    }, 600);
+    }
   };
 
   return (
@@ -45,7 +76,7 @@ export function Estimate() {
               </div>
               <div className="sm:col-span-2">
                 <Field label={t("Service Type", "Tipo de Servicio")} id="service">
-                  <Select>
+                  <Select value={service} onValueChange={setService}>
                     <SelectTrigger id="service" className="h-11"><SelectValue placeholder={t("Select a service", "Seleccione un servicio")} /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="residential">{t("Residential Electrical", "Eléctrico Residencial")}</SelectItem>

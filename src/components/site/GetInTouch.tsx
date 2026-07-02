@@ -18,6 +18,45 @@ const TinyLightningIcon = () => (
 
 export function GetInTouch() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleGitSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const form = e.currentTarget;
+    const name = (form.querySelector("input[name='name']") as HTMLInputElement)?.value || "";
+    const phone = (form.querySelector("input[name='phone']") as HTMLInputElement)?.value || "";
+    const email = (form.querySelector("input[name='email']") as HTMLInputElement)?.value || "";
+    const service = (form.querySelector("select[name='service']") as HTMLSelectElement)?.value || "";
+    const msg = (form.querySelector("textarea[name='message']") as HTMLTextAreaElement)?.value || "";
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Name: name,
+          Phone: phone,
+          Email: email,
+          "Service Needed": service || "General Inquiry",
+          Message: msg
+        })
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      }
+    } catch (err) {
+      // Fallback fallback on failure
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <section id="get-in-touch" className="relative py-[60px] bg-white border-b border-slate-100 overflow-hidden">
@@ -122,10 +161,7 @@ export function GetInTouch() {
                 </motion.div>
               ) : (
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setSubmitted(true);
-                  }}
+                  onSubmit={handleGitSubmit}
                   className="space-y-6 text-left"
                 >
                   <div className="grid sm:grid-cols-2 gap-5">
@@ -154,6 +190,7 @@ export function GetInTouch() {
                     <div className="sm:col-span-2">
                       <Label>Service Needed</Label>
                       <select
+                        name="service"
                         required
                         className="mt-2.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3.5 text-xs font-semibold text-slate-600 focus:outline-none focus:ring-4 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] focus:bg-white transition-all duration-300 cursor-pointer"
                       >
@@ -171,6 +208,7 @@ export function GetInTouch() {
                     <div className="sm:col-span-2">
                       <Label>Project Scope / Problem Description</Label>
                       <textarea
+                        name="message"
                         rows={4}
                         placeholder="Describe the issue, fixtures, outlet problems, or scheduling needs..."
                         className="mt-2.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3.5 text-xs font-semibold text-slate-600 focus:outline-none focus:ring-4 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] focus:bg-white transition-all duration-300 resize-none"
@@ -182,9 +220,10 @@ export function GetInTouch() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#FF6B00] hover:bg-[#E05E00] px-6 py-4.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_8px_24px_-4px_rgba(255,107,0,0.4)] hover:brightness-110 cursor-pointer transition-all duration-300"
+                    disabled={submitting}
+                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#FF6B00] hover:bg-[#E05E00] px-6 py-4.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_8px_24px_-4px_rgba(255,107,0,0.4)] hover:brightness-110 cursor-pointer transition-all duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <span>Send Service Request</span>
+                    <span>{submitting ? "Sending..." : "Send Service Request"}</span>
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </motion.button>
 

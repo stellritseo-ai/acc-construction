@@ -16,15 +16,52 @@ export function Careers() {
   const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const [activeJob, setActiveJob] = useState<number | null>(null);
+  const [job, setJob] = useState("");
+  const [exp, setExp] = useState("");
+  const [license, setLicense] = useState("");
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
+    
+    const form = e.currentTarget;
+    const name = (form.querySelector("#app-name") as HTMLInputElement)?.value || "";
+    const phone = (form.querySelector("#app-phone") as HTMLInputElement)?.value || "";
+    const email = (form.querySelector("#app-email") as HTMLInputElement)?.value || "";
+    const msg = (form.querySelector("#app-msg") as HTMLTextAreaElement)?.value || "";
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Name: name,
+          Phone: phone,
+          Email: email,
+          "Position of Interest": job || "General Application",
+          "Years of Experience": exp || "Not Specified",
+          "License Status": license || "Not Specified",
+          Message: msg
+        })
+      });
+
+      if (response.ok) {
+        toast.success(t("Application received! We'll review your details and contact you soon.", "¡Solicitud recibida! Revisaremos sus datos y nos pondremos en contacto pronto."));
+        form.reset();
+        setJob("");
+        setExp("");
+        setLicense("");
+      } else {
+        toast.error(t("Submission failed. Please try again.", "Error en el envío. Por favor, inténtelo de nuevo."));
+      }
+    } catch (err) {
+      toast.error(t("Connection error. Please try again.", "Error de conexión. Por favor, inténtelo de nuevo."));
+    } finally {
       setSubmitting(false);
-      toast.success(t("Application received! We'll review your details and contact you soon.", "¡Solicitud recibida! Revisaremos sus datos y nos pondremos en contacto pronto."));
-      (e.target as HTMLFormElement).reset();
-    }, 800);
+    }
   };
 
   const benefits = [
@@ -255,7 +292,7 @@ export function Careers() {
                   <Label htmlFor="app-job" className="text-xs font-bold uppercase tracking-wider text-secondary">
                     {t("Position of Interest", "Puesto de Interés")}
                   </Label>
-                  <Select required>
+                  <Select required value={job} onValueChange={setJob}>
                     <SelectTrigger id="app-job" className="h-11 mt-1.5">
                       <SelectValue placeholder={t("Select a position", "Seleccione un puesto")} />
                     </SelectTrigger>
@@ -273,7 +310,7 @@ export function Careers() {
                   <Label htmlFor="app-exp" className="text-xs font-bold uppercase tracking-wider text-secondary">
                     {t("Years of Experience", "Años de Experiencia")}
                   </Label>
-                  <Select required>
+                  <Select required value={exp} onValueChange={setExp}>
                     <SelectTrigger id="app-exp" className="h-11 mt-1.5">
                       <SelectValue placeholder={t("Select experience", "Seleccione experiencia")} />
                     </SelectTrigger>
@@ -290,7 +327,7 @@ export function Careers() {
                   <Label htmlFor="app-license" className="text-xs font-bold uppercase tracking-wider text-secondary">
                     {t("Electrical License Status", "Estado de Licencia Eléctrica")}
                   </Label>
-                  <Select required>
+                  <Select required value={license} onValueChange={setLicense}>
                     <SelectTrigger id="app-license" className="h-11 mt-1.5">
                       <SelectValue placeholder={t("Select license", "Seleccione licencia")} />
                     </SelectTrigger>

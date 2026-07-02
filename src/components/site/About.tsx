@@ -7,7 +7,7 @@ export function About() {
   const { t } = useLanguage();
 
   const points = [
-    t("15+ years powering Florida residences and businesses", "Más de 15 años alimentando residencias y empresas de Florida"),
+    t("17+ years powering Florida residences and businesses", "Más de 17 años alimentando residencias y empresas de Florida"),
     t("Master-licensed electricians and NEC-certified team", "Electricistas con licencia de maestro y equipo certificado por la NEC"),
     t("Strict OSHA and NFPA 70E safety protocols", "Protocolos estrictos de seguridad de OSHA y NFPA 70E"),
     t("Transparent fixed-quote pricing — no surprises", "Precios de cotización fijos y transparentes — sin sorpresas"),
