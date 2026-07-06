@@ -76,7 +76,7 @@ export default defineConfig({
     ],
     build: {
       rollupOptions: {
-        external: ["mongodb", "dns", "aws4", "snappy", "kerberos", "tls", "net", "node:async_hooks", "async_hooks", "cloudinary", "crypto", "node:crypto", "socket.io"],
+        external: ["dns", "aws4", "snappy", "kerberos", "tls", "net", "node:async_hooks", "async_hooks", "crypto", "node:crypto", "socket.io"],
       },
     },
   },
