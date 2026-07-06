@@ -15,6 +15,7 @@ export default defineConfig({
   nitro: {
     preset: "vercel",
     externals: {
+      inline: ["mongodb", "cloudinary"],
       traceInclude: ["mongodb", "cloudinary"],
     },
   },
