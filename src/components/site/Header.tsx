@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Menu, Phone, X, Mail, MapPin, Facebook, Instagram, Clock,
   ChevronDown, Home, Building2, Factory, Zap, BatteryCharging,
-  ShieldAlert, Cable, Shield, AlertTriangle,
+  ShieldAlert, Cable, Shield, AlertTriangle, Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoImg from "@/assets/logo.png";
@@ -27,6 +27,7 @@ export function Header() {
     { to: "/services/commercial", l: t("New Construction Electrical", "Electricidad de Nuevas Construcciones"), desc: t("Commercial & residential system design & installations", "Diseño e instalaciones de sistemas comerciales y residenciales"), icon: Building2 },
     { to: "/services/wiring-rewiring", l: t("Fire Alarm Systems", "Sistemas de Alarma contra Incendios"), desc: t("Safety-certified design & low-voltage wiring", "Diseño con certificación de seguridad y cableado de bajo voltaje"), icon: ShieldAlert },
     { to: "/services/security-systems", l: t("Internet & Security Cameras", "Internet y Cámaras de Seguridad"), desc: t("Structured ethernet cabling & surveillance setups", "Cableado estructurado de ethernet y configuraciones de vigilancia"), icon: Cable },
+    { to: "/services/cctv-camera", l: t("CCTV Camera Install & Repair", "Instalación y Reparación de Cámaras CCTV"), desc: t("Premium HD surveillance, DVR setups & security diagnostics", "Vigilancia HD premium, configuraciones de DVR y diagnóstico de seguridad"), icon: Video },
     { to: "/services/residential", l: t("Residential Electrical", "Electricidad Residencial"), desc: t("Expert home wiring, panels & custom lighting", "Cableado de casa experto, paneles y iluminación personalizada"), icon: Home },
     { to: "/services/panel-upgrades", l: t("Panel Upgrades", "Actualizaciones de Panel"), desc: t("Modernize breaker boxes & electrical capacity", "Modernice cajas de disyuntores y capacidad eléctrica"), icon: Zap },
     { to: "/services/ev-charger", l: t("EV Charger Installation", "Instalación de Cargador EV"), desc: t("Level 2 home & commercial charging ports", "Puertos de carga de nivel 2 para hogares y comercios"), icon: BatteryCharging },

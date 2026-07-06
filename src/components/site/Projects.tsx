@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { MapPin, ArrowRight, Zap, Building2, Home, Factory, X, ZoomIn } from "lucide-react";
 import p1 from "@/assets/project-1.jpg";
 import p2 from "@/assets/project-2.jpg";
@@ -10,8 +10,7 @@ import p7 from "@/assets/service-generator.jpg";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "@tanstack/react-router";
-
-const cats = ["All", "Residential", "Commercial", "Industrial"] as const;
+import { getGalleryPhotos } from "@/lib/leads-store";
 
 const catIcons = {
   All: Zap,
@@ -20,10 +19,21 @@ const catIcons = {
   Industrial: Factory,
 };
 
-export function Projects() {
+export function Projects({ isLanding = false }: { isLanding?: boolean }) {
   const { t } = useLanguage();
+  const [dbPhotos, setDbPhotos] = useState<any[]>([]);
 
-  const all = [
+  useEffect(() => {
+    getGalleryPhotos().then(photos => {
+      if (Array.isArray(photos) && photos.length > 0) {
+        setDbPhotos(photos);
+      }
+    }).catch(err => {
+      console.warn("Failed to load database gallery photos, using static seeds:", err);
+    });
+  }, []);
+
+  const fallbackAll = [
     {
       img: p1,
       title: t("Luxury Home Lighting System", "Sistema de Iluminación de Lujo para el Hogar"),
@@ -89,6 +99,20 @@ export function Projects() {
     },
   ];
 
+  const all = dbPhotos.length > 0 ? dbPhotos.map((photo, index) => {
+    const rawCat = photo.category || "residential";
+    const cat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1);
+    return {
+      img: photo.url,
+      title: photo.title || `${cat} Electrical Installation`,
+      cat,
+      loc: photo.location || "Miami, FL",
+      year: photo.uploadedAt ? new Date(photo.uploadedAt).getFullYear().toString() : "2024",
+      tag: photo.tag || `${cat} Service`,
+      featured: index % 3 === 0,
+    };
+  }) : fallbackAll;
+
   const catLabels = {
     All: t("All", "Todos"),
     Residential: t("Residential", "Residencial"),
@@ -96,8 +120,20 @@ export function Projects() {
     Industrial: t("Industrial", "Industrial"),
   };
 
-  const [active, setActive] = useState<(typeof cats)[number]>("All");
+  const dynamicCats = useMemo(() => {
+    const categories = new Set<string>();
+    categories.add("All");
+    all.forEach((p) => {
+      if (p.cat) {
+        categories.add(p.cat);
+      }
+    });
+    return Array.from(categories);
+  }, [all]);
+
+  const [active, setActive] = useState<string>("All");
   const items = active === "All" ? all : all.filter((p) => p.cat === active);
+  const displayItems = isLanding ? items.slice(0, 15) : items;
 
   // Lightbox state
   const [lightbox, setLightbox] = useState<null | (typeof all)[number]>(null);
@@ -163,79 +199,91 @@ export function Projects() {
 
         {/* ── Filter Tabs ─────────────────────────────── */}
         <div className="flex flex-wrap gap-2.5 mb-10">
-          {cats.map((c) => {
-            const Icon = catIcons[c];
+          {dynamicCats.map((c) => {
+            const Icon = catIcons[c as keyof typeof catIcons] || Zap;
             return (
               <button
                 key={c}
                 onClick={() => setActive(c)}
                 className={cn(
-                  "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-bold transition-all duration-200 border",
+                  "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-bold transition-all duration-200 border cursor-pointer",
                   active === c
                     ? "bg-[#FF6B00] text-white border-[#FF6B00] shadow-[0_4px_14px_rgba(255,107,0,0.3)]"
                     : "bg-white text-slate-600 border-slate-200 hover:border-[#FF6B00] hover:text-[#FF6B00] shadow-sm"
                 )}
               >
                 <Icon className="h-3.5 w-3.5" />
-                {catLabels[c]}
+                {catLabels[c as keyof typeof catLabels] || c}
               </button>
             );
           })}
         </div>
 
-        {/* ── Projects Masonry Grid ───────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {items.map((p, idx) => (
+        {/* ── Projects Grid ───────────────────────────── */}
+        <div className={isLanding ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"}>
+          {displayItems.map((p, idx) => (
             <article
-              key={p.title}
+              key={idx}
               onClick={() => openLightbox(p)}
               className={cn(
-                "group relative overflow-hidden rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 cursor-zoom-in",
-                p.featured ? "sm:col-span-1 lg:row-span-2" : ""
+                "group relative overflow-hidden rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 cursor-zoom-in",
+                isLanding 
+                  ? "aspect-[4/3] w-full"
+                  : p.featured ? "sm:col-span-1 lg:row-span-2" : ""
               )}
             >
               {/* Image */}
-              <div className={cn("overflow-hidden", p.featured ? "h-[420px] lg:h-full lg:min-h-[520px]" : "h-[240px] sm:h-[260px]")}>
+              <div className={cn(
+                "overflow-hidden w-full h-full",
+                isLanding ? "h-full" : p.featured ? "h-[420px] lg:h-full lg:min-h-[520px]" : "h-[240px] sm:h-[260px]"
+              )}>
                 <img
                   src={p.img}
                   alt={p.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  loading={idx < 3 ? "eager" : "lazy"}
+                  loading={idx < 5 ? "eager" : "lazy"}
                 />
               </div>
 
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent opacity-95 group-hover:opacity-100 transition-opacity duration-300" />
 
               {/* Top badges */}
-              <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-2">
-                <span className="inline-flex items-center bg-white/15 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+              <div className="absolute top-2.5 left-2.5 right-2.5 flex items-start justify-between gap-1">
+                <span className="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/10 text-white text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                   {p.tag}
                 </span>
-                <span className="bg-[#FF6B00] text-white text-[10px] font-black px-2.5 py-1 rounded-full">
-                  {p.year}
-                </span>
+                {!isLanding && (
+                  <span className="bg-[#FF6B00] text-white text-[10px] font-black px-2.5 py-1 rounded-full">
+                    {p.year}
+                  </span>
+                )}
               </div>
 
               {/* Bottom content */}
-              <div className="absolute bottom-0 left-0 right-0 p-5">
+              <div className="absolute bottom-0 left-0 right-0 p-3.5">
                 {/* Category pill */}
-                <span className="inline-flex items-center bg-[#FF6B00] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full mb-3">
-                  {catLabels[p.cat as keyof typeof catLabels]}
+                <span className="inline-flex items-center bg-[#FF6B00] text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full mb-1.5">
+                  {catLabels[p.cat as keyof typeof catLabels] || p.cat}
                 </span>
 
-                <h3 className="font-extrabold text-white text-base sm:text-lg leading-tight mb-2">
+                <h3 className={cn(
+                  "font-extrabold text-white leading-tight mb-1 truncate",
+                  isLanding ? "text-xs sm:text-sm" : "text-base sm:text-lg"
+                )}>
                   {p.title}
                 </h3>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-white/75 text-xs font-medium">
-                    <MapPin className="h-3.5 w-3.5 shrink-0" />
+                  <div className="flex items-center gap-1 text-white/75 text-[10px] sm:text-xs font-medium truncate">
+                    <MapPin className="h-3 w-3 shrink-0" />
                     {p.loc}
                   </div>
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <ZoomIn className="h-3.5 w-3.5" />
-                  </div>
+                  {!isLanding && (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <ZoomIn className="h-3.5 w-3.5" />
+                    </div>
+                  )}
                 </div>
               </div>
             </article>
@@ -280,7 +328,7 @@ export function Projects() {
             <div className="bg-white px-6 py-4 flex items-center justify-between gap-4 shrink-0">
               <div className="flex items-center gap-3 min-w-0">
                 <span className="bg-[#FF6B00] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shrink-0">
-                  {catLabels[lightbox.cat as keyof typeof catLabels]}
+                  {catLabels[lightbox.cat as keyof typeof catLabels] || lightbox.cat}
                 </span>
                 <div className="min-w-0">
                   <p className="font-extrabold text-slate-900 text-sm sm:text-base leading-tight truncate">{lightbox.title}</p>

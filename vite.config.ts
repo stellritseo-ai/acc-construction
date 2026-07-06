@@ -15,4 +15,66 @@ export default defineConfig({
   nitro: {
     preset: "vercel",
   },
+  vite: {
+    plugins: [
+      {
+        name: "api-server",
+        async configureServer(server) {
+          server.middlewares.use(async (req, res, next) => {
+            if (req.url && req.url.startsWith("/api/")) {
+              try {
+                const { handleNodeApiRequest } = await import("./src/lib/api-handler.server");
+                const handled = await handleNodeApiRequest(req, res);
+                if (handled) return;
+              } catch (err) {
+                console.error("Vite dev API error:", err);
+                res.statusCode = 500;
+                res.end(JSON.stringify({ error: String(err) }));
+                return;
+              }
+            }
+            next();
+          });
+
+          if (server.httpServer) {
+            try {
+              const { Server } = await import("socket.io");
+              const io = new Server(server.httpServer, {
+                cors: {
+                  origin: "*",
+                  methods: ["GET", "POST"]
+                }
+              });
+
+              io.on("connection", (socket) => {
+                socket.on("join-session", (sessionId) => {
+                  socket.join(sessionId);
+                });
+
+                socket.on("send-message", (data) => {
+                  // data: { sessionId, sender, text, timestamp }
+                  io.to(data.sessionId).emit("message", data);
+                  io.emit("new-chat-message", data);
+                });
+
+                socket.on("session-created", (data) => {
+                  // data: { sessionId, clientName }
+                  io.emit("session-created", data);
+                });
+              });
+
+              console.log("⚡ [Socket.io] Dev Server initialized successfully");
+            } catch (err) {
+              console.error("Failed to start Socket.io server:", err);
+            }
+          }
+        },
+      },
+    ],
+    build: {
+      rollupOptions: {
+        external: ["mongodb", "dns", "aws4", "snappy", "kerberos", "tls", "net", "node:async_hooks", "async_hooks", "cloudinary", "crypto", "node:crypto", "socket.io"],
+      },
+    },
+  },
 });

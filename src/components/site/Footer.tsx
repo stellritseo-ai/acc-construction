@@ -55,6 +55,7 @@ export function Footer() {
     { label: t("Residential Electrical", "Electricidad Residencial"), href: "/services/residential" },
     { label: t("Commercial Electrical", "Electricidad Comercial"), href: "/services/commercial" },
     { label: t("Industrial Electrical", "Electricidad Industrial"), href: "/services/industrial" },
+    { label: t("CCTV Camera Installation", "Instalación de Cámaras CCTV"), href: "/services/cctv-camera" },
     { label: t("Panel Upgrades", "Actualizaciones de Panel"), href: "/services/panel-upgrades" },
     { label: t("EV Charger Installation", "Instalación de Cargador EV"), href: "/services/ev-charger" },
     { label: t("Generator Services", "Servicios de Generadores"), href: "/services/generator" },

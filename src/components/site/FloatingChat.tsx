@@ -1,26 +1,133 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
+import { io } from "socket.io-client";
+import { createChatSession, sendChatMessage, getChatSessionById, ChatMessage } from "@/lib/leads-store";
+import { toast } from "sonner";
 import favIcon from "@/assets/fav.png";
 
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSend = (e: React.FormEvent) => {
+  const socketRef = useRef<any>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // 1. Retrieve localStorage session on mount
+  useEffect(() => {
+    const storedId = localStorage.getItem("electrical-chat-session-id");
+    const storedName = localStorage.getItem("electrical-chat-client-name");
+    if (storedId) {
+      setSessionId(storedId);
+      if (storedName) setName(storedName);
+
+      // Load conversation history from database
+      getChatSessionById(storedId).then((session) => {
+        if (session) {
+          setMessages(session.messages || []);
+        }
+      });
+    }
+  }, []);
+
+  // 2. Establish Socket.io connection when session is active
+  useEffect(() => {
+    if (!sessionId) return;
+
+    // Connect to the current window's origin
+    const socket = io({
+      transports: ["websocket", "polling"],
+      autoConnect: true
+    });
+    socketRef.current = socket;
+
+    // Join room for the session
+    socket.emit("join-session", sessionId);
+
+    // Listen for incoming messages
+    socket.on("message", (msg: ChatMessage) => {
+      setMessages((prev) => {
+        // Prevent duplicate appending
+        if (prev.some((m) => m.id === msg.id)) return prev;
+        return [...prev, msg];
+      });
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [sessionId]);
+
+  // 3. Scroll to the bottom of the chat dynamically
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isOpen]);
+
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim() || !name.trim()) return;
+    if (!message.trim()) return;
+
+    let activeId = sessionId;
+    let clientName = name.trim();
+
+    if (!activeId && !clientName) {
+      toast.error("Please enter your name to start the chat.");
+      return;
+    }
+
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      // Create session in the database if this is the first message
+      if (!activeId) {
+        const session = await createChatSession(clientName, "Miami", "", "");
+        activeId = session.id;
+        setSessionId(activeId);
+        setName(clientName);
+        localStorage.setItem("electrical-chat-session-id", activeId);
+        localStorage.setItem("electrical-chat-client-name", clientName);
+
+        // Notify socket connection that session was created
+        const tempSocket = socketRef.current || io();
+        tempSocket.emit("session-created", { sessionId: activeId, clientName });
+      }
+
+      // Save message to MongoDB
+      const updatedSession = await sendChatMessage(activeId, "client", message.trim());
+      if (updatedSession) {
+        const lastMsg = updatedSession.messages[updatedSession.messages.length - 1];
+
+        // Broadcast message to Socket.io so the admin panel updates instantly
+        if (socketRef.current) {
+          socketRef.current.emit("send-message", {
+            ...lastMsg,
+            sessionId: activeId
+          });
+        }
+
+        setMessages(updatedSession.messages || []);
+        setMessage("");
+      }
+    } catch (err) {
+      console.error("Failed to send chat message:", err);
+      toast.error("Message could not be sent. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-      setMessage("");
-      setName("");
-    }, 800);
+    }
+  };
+
+  const handleClearChat = () => {
+    localStorage.removeItem("electrical-chat-session-id");
+    localStorage.removeItem("electrical-chat-client-name");
+    setSessionId(null);
+    setName("");
+    setMessages([]);
+    setIsOpen(false);
   };
 
   return (
@@ -48,17 +155,28 @@ export function FloatingChat() {
                   <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Online · Dispatch Active</span>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white/80 hover:text-white transition p-1 hover:bg-white/10 rounded-lg cursor-pointer"
-              >
-                <X className="h-5 w-5" />
-              </button>
+              <div className="flex items-center gap-1.5">
+                {sessionId && (
+                  <button
+                    onClick={handleClearChat}
+                    title="Clear Chat History"
+                    className="text-white/60 hover:text-white transition text-[10px] bg-white/10 px-2 py-1 rounded cursor-pointer font-bold uppercase tracking-wider"
+                  >
+                    Reset
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-white/80 hover:text-white transition p-1 hover:bg-white/10 rounded-lg cursor-pointer"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 p-4 max-h-[260px] overflow-y-auto bg-slate-50/50 flex flex-col gap-3.5">
-              {/* Message 1 */}
+            <div className="flex-1 p-4 h-[260px] overflow-y-auto bg-slate-50/50 flex flex-col gap-3">
+              {/* Default Welcome Message */}
               <div className="flex gap-2.5 items-start">
                 <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100">
                   <img src={favIcon} alt="R&E Logo" className="w-full h-full object-contain" />
@@ -70,49 +188,64 @@ export function FloatingChat() {
                 </div>
               </div>
 
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex gap-2.5 items-start"
-                >
-                  <div className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-xs text-white shrink-0 select-none">
-                    ✓
-                  </div>
-                  <div className="bg-emerald-50 border border-emerald-100 text-emerald-950 rounded-2xl rounded-tl-none p-3.5 shadow-sm text-left max-w-[80%] flex flex-col gap-1.5">
-                    <div className="flex items-center gap-1.5 font-bold text-xs text-emerald-800">
-                      <CheckCircle2 className="h-4 w-4 shrink-0" /> Message Received!
+              {/* Dynamic Conversation Messages */}
+              {messages.map((msg) => {
+                const isAdmin = msg.sender === "admin";
+                return (
+                  <div
+                    key={msg.id}
+                    className={`flex gap-2.5 items-start ${isAdmin ? "" : "flex-row-reverse"}`}
+                  >
+                    {isAdmin ? (
+                      <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100">
+                        <img src={favIcon} alt="R&E Logo" className="w-full h-full object-contain" />
+                      </div>
+                    ) : (
+                      <div className="w-7 h-7 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center select-none shrink-0 text-[10px] font-bold text-slate-700 capitalize">
+                        {name.charAt(0) || "V"}
+                      </div>
+                    )}
+                    <div
+                      className={`rounded-2xl p-3 shadow-sm text-left max-w-[80%] border ${
+                        isAdmin
+                          ? "bg-white border-slate-100 text-slate-800 rounded-tl-none"
+                          : "bg-[#FF6B00] text-white border-[#FF6B00] rounded-tr-none"
+                      }`}
+                    >
+                      <p className="text-xs font-semibold leading-relaxed whitespace-pre-wrap">{msg.text}</p>
                     </div>
-                    <p className="text-[11px] font-medium leading-relaxed">
-                      Thank you! A dispatch coordinator will review your message and contact you in under 60 minutes.
-                    </p>
                   </div>
-                </motion.div>
-              ) : null}
+                );
+              })}
+              <div ref={chatEndRef} />
             </div>
 
             {/* Form Actions */}
-            {!submitted && (
-              <div className="px-4 pb-4 pt-2 border-t border-slate-100 bg-white flex flex-col gap-2">
-                <div className="text-[10px] font-black uppercase text-slate-400 tracking-wider text-left pl-1">
-                  Quick Actions
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <a
-                    href="tel:+17863075933"
-                    className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-[#FF6B00]/30 rounded-xl py-2 px-1 text-[10px] sm:text-xs font-bold text-slate-700 transition"
-                  >
-                    <Phone className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" /> Call 24/7 Support
-                  </a>
-                  <Link
-                    to="/contact"
-                    className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-[#FF6B00]/30 rounded-xl py-2 px-1 text-[10px] sm:text-xs font-bold text-slate-700 transition"
-                  >
-                    <Calendar className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" /> Free Estimate
-                  </Link>
-                </div>
+            <div className="px-4 pb-4 pt-2 border-t border-slate-100 bg-white flex flex-col gap-2">
+              {!sessionId && (
+                <>
+                  <div className="text-[10px] font-black uppercase text-slate-400 tracking-wider text-left pl-1">
+                    Quick Actions
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href="tel:+17863075933"
+                      className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-[#FF6B00]/30 rounded-xl py-2 px-1 text-[10px] sm:text-xs font-bold text-slate-700 transition"
+                    >
+                      <Phone className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" /> Call 24/7 Support
+                    </a>
+                    <Link
+                      to="/contact"
+                      className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-[#FF6B00]/30 rounded-xl py-2 px-1 text-[10px] sm:text-xs font-bold text-slate-700 transition"
+                    >
+                      <Calendar className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" /> Free Estimate
+                    </Link>
+                  </div>
+                </>
+              )}
 
-                <form onSubmit={handleSend} className="mt-2.5 flex flex-col gap-2">
+              <form onSubmit={handleSend} className="mt-1 flex flex-col gap-2">
+                {!sessionId && (
                   <input
                     type="text"
                     required
@@ -121,26 +254,26 @@ export function FloatingChat() {
                     onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] transition"
                   />
-                  <div className="relative flex items-center">
-                    <input
-                      type="text"
-                      required
-                      placeholder="Type a message..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-3 pr-10 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] transition"
-                    />
-                    <button
-                      type="submit"
-                      disabled={isSubmitting || !message.trim() || !name.trim()}
-                      className="absolute right-1.5 p-1.5 rounded-lg text-white bg-[#FF6B00] hover:bg-[#E05E00] transition disabled:opacity-50 disabled:hover:bg-[#FF6B00] cursor-pointer"
-                    >
-                      <Send className="h-3 w-3" />
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
+                )}
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Type a message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-3 pr-10 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] transition"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !message.trim() || (!sessionId && !name.trim())}
+                    className="absolute right-1.5 p-1.5 rounded-lg text-white bg-[#FF6B00] hover:bg-[#E05E00] transition disabled:opacity-50 disabled:hover:bg-[#FF6B00] cursor-pointer"
+                  >
+                    <Send className="h-3 w-3" />
+                  </button>
+                </div>
+              </form>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -151,9 +284,8 @@ export function FloatingChat() {
         whileTap={{ scale: 0.95 }}
         onClick={() => {
           setIsOpen(!isOpen);
-          if (submitted) setSubmitted(false);
         }}
-        className="pointer-events-auto relative h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#E05E00] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none select-none cursor-pointer overflow-hidden p-0"
+        className="pointer-events-auto relative h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#E05E00] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none select-none cursor-pointer overflow-hidden p-0 border-0"
       >
         <span className="absolute inset-0 rounded-full bg-[#FF6B00] opacity-35 animate-ping -z-10" />
         {isOpen ? (

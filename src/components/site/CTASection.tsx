@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Mail, MapPin, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
+import { addWebEmail } from "@/lib/leads-store";
 
 const TinyLightningIcon = () => (
   <svg className="w-3.5 h-3.5 text-[#FF6B00] fill-[#FF6B00] shrink-0" viewBox="0 0 24 24">
@@ -23,12 +24,42 @@ export function CTASection() {
     if (!name.trim() || !email.trim()) return;
 
     setIsSubmitting(true);
-    // Simulate network submission delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
     
-    toast.success("Thank you! We will get in touch with you shortly.");
-    setIsSubmitted(true);
-    setIsSubmitting(false);
+    try {
+      // 1. Save to MongoDB
+      await addWebEmail({
+        name,
+        phone,
+        email,
+        service: service || "General Quote Request",
+        message: `Address: ${address}\n\nMessage: ${message}`,
+        source: "Landing CTA Section"
+      });
+
+      // 2. Email backup
+      await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Name: name,
+          Phone: phone,
+          Email: email,
+          Address: address,
+          "Service Needed": service || "General Quote Request",
+          Message: message
+        })
+      });
+
+      toast.success("Thank you! We will get in touch with you shortly.");
+      setIsSubmitted(true);
+    } catch (err) {
+      toast.error("Submission error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

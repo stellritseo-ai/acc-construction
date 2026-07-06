@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { useLanguage } from "@/hooks/useLanguage";
+import { addWebEmail } from "@/lib/leads-store";
 
 export function Careers() {
   const { t } = useLanguage();
@@ -31,6 +32,17 @@ export function Careers() {
     const msg = (form.querySelector("#app-msg") as HTMLTextAreaElement)?.value || "";
 
     try {
+      // 1. Save to MongoDB database
+      await addWebEmail({
+        name,
+        phone,
+        email,
+        service: `Job Application: ${job || "General Application"}`,
+        message: `License: ${license}\nExperience: ${exp}\n\nSummary:\n${msg}`,
+        source: "Careers Form"
+      });
+
+      // 2. Email backup
       const response = await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
         method: "POST",
         headers: {

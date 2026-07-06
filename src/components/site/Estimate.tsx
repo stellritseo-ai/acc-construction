@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useLanguage } from "@/hooks/useLanguage";
+import { addWebEmail } from "@/lib/leads-store";
 
 export function Estimate() {
   const { t } = useLanguage();
@@ -24,6 +25,17 @@ export function Estimate() {
     const msg = (form.querySelector("#msg") as HTMLTextAreaElement)?.value || "";
 
     try {
+      // 1. Save to MongoDB database
+      await addWebEmail({
+        name,
+        phone,
+        email,
+        service: service || "General Inquiry",
+        message: msg,
+        source: "Free Estimate Page"
+      });
+
+      // 2. Email backup forwarding
       const response = await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
         method: "POST",
         headers: {

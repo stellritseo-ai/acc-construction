@@ -1,5 +1,6 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Star } from "lucide-react";
+import { getReviews } from "@/lib/leads-store";
 
 interface Review {
   text: string;
@@ -8,6 +9,7 @@ interface Review {
   rating: number;
   initials: string;
   avatarColor: string;
+  replyText?: string;
 }
 
 import { useLanguage } from "@/hooks/useLanguage";
@@ -30,19 +32,28 @@ import { cn } from "@/lib/utils";
 function TestimonialCard({ review, isGrid = false }: { review: Review; isGrid?: boolean }) {
   return (
     <div className={cn(
-      "relative bg-white border border-slate-200 shadow-[0_2px_20px_rgba(0,0,0,0.06)] rounded-2xl p-6 flex flex-col gap-4 group hover:shadow-[0_6px_30px_rgba(0,0,0,0.10)] hover:border-slate-300 transition-all duration-300",
+      "relative bg-white border border-slate-200 shadow-[0_2px_20px_rgba(0,0,0,0.06)] rounded-2xl p-6 flex flex-col gap-4 group hover:shadow-[0_6px_30px_rgba(0,0,0,0.10)] hover:border-slate-300 transition-all duration-300 text-left justify-between",
       isGrid ? "w-full" : "flex-shrink-0 w-[340px] sm:w-[380px] mx-3"
     )}>
-      {/* Rating */}
-      <StarRating count={review.rating} />
+      <div className="space-y-4">
+        {/* Rating */}
+        <StarRating count={review.rating} />
 
-      {/* Text */}
-      <p className="text-slate-600 text-sm leading-relaxed font-medium flex-1">
-        "{review.text}"
-      </p>
+        {/* Text */}
+        <p className="text-slate-655 text-sm leading-relaxed font-medium flex-1">
+          "{review.text}"
+        </p>
+
+        {review.replyText && (
+          <div className="mt-3 bg-slate-50 border border-slate-100 p-3.5 rounded-xl text-left text-xs">
+            <p className="font-extrabold text-[#FF6B00] uppercase tracking-wider text-[10px]">R&E Electrical Response</p>
+            <p className="text-slate-600 font-medium leading-relaxed mt-1">"{review.replyText}"</p>
+          </div>
+        )}
+      </div>
 
       {/* Author */}
-      <div className="flex items-center gap-3 pt-3 border-t border-slate-100">
+      <div className="flex items-center gap-3 pt-3 border-t border-slate-100 mt-2">
         <div
           className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
           style={{ backgroundColor: review.avatarColor }}
@@ -102,8 +113,46 @@ function MarqueeRow({
 
 export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
   const { t } = useLanguage();
+  const [dbReviews, setDbReviews] = useState<Review[]>([]);
 
-  const reviews: Review[] = [
+  useEffect(() => {
+    getReviews().then((items) => {
+      if (Array.isArray(items)) {
+        const mapped = items
+          .filter((r) => r.featured)
+          .map((r) => {
+            const initials = r.author
+              .split(" ")
+              .map((n) => n.charAt(0))
+              .join("")
+              .toUpperCase()
+              .slice(0, 2) || "V";
+
+            const colors = ["#1D4ED8", "#7C3AED", "#065F46", "#B45309", "#BE185D", "#0F766E", "#9333EA", "#DC2626"];
+            const hash = r.author.charCodeAt(0) % colors.length;
+            const avatarColor = colors[isNaN(hash) ? 0 : hash];
+
+            return {
+              text: r.text,
+              name: r.author,
+              role: r.location,
+              rating: r.rating,
+              initials,
+              avatarColor,
+              replyText: r.replyText
+            };
+          });
+        
+        if (mapped.length > 0) {
+          setDbReviews(mapped);
+        }
+      }
+    }).catch(err => {
+      console.warn("Failed to load dynamic reviews, utilizing static fallbacks:", err);
+    });
+  }, []);
+
+  const fallbackReviews: Review[] = [
     {
       text: t("The electrical panel upgrade they did for our home was outstanding. Professional, clean, and finished ahead of schedule. Zero issues since.", "La actualización del panel eléctrico que hicieron para nuestro hogar fue excelente. Profesional, limpia y terminada antes de lo previsto. Cero problemas desde entonces."),
       name: "Marcus T.",
@@ -170,8 +219,10 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
     },
   ];
 
-  const row1 = reviews.slice(0, 4);
-  const row2 = reviews.slice(4, 8);
+  const reviews = dbReviews.length > 0 ? dbReviews : fallbackReviews;
+
+  const row1 = reviews.slice(0, Math.ceil(reviews.length / 2));
+  const row2 = reviews.slice(Math.ceil(reviews.length / 2));
 
   return (
     <section

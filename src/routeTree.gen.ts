@@ -18,6 +18,7 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ServicesWiringRewiringRouteImport } from './routes/services/wiring-rewiring'
 import { Route as ServicesSecuritySystemsRouteImport } from './routes/services/security-systems'
 import { Route as ServicesResidentialRouteImport } from './routes/services/residential'
@@ -27,6 +28,8 @@ import { Route as ServicesGeneratorRouteImport } from './routes/services/generat
 import { Route as ServicesEvChargerRouteImport } from './routes/services/ev-charger'
 import { Route as ServicesEmergencyRouteImport } from './routes/services/emergency'
 import { Route as ServicesCommercialRouteImport } from './routes/services/commercial'
+import { Route as ServicesCctvCameraRouteImport } from './routes/services/cctv-camera'
+import { Route as DashboardLoginRouteImport } from './routes/dashboard/login'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -73,6 +76,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesWiringRewiringRoute = ServicesWiringRewiringRouteImport.update({
   id: '/wiring-rewiring',
   path: '/wiring-rewiring',
@@ -118,6 +126,16 @@ const ServicesCommercialRoute = ServicesCommercialRouteImport.update({
   path: '/commercial',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ServicesCctvCameraRoute = ServicesCctvCameraRouteImport.update({
+  id: '/cctv-camera',
+  path: '/cctv-camera',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const DashboardLoginRoute = DashboardLoginRouteImport.update({
+  id: '/dashboard/login',
+  path: '/dashboard/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -128,6 +146,8 @@ export interface FileRoutesByFullPath {
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard/login': typeof DashboardLoginRoute
+  '/services/cctv-camera': typeof ServicesCctvCameraRoute
   '/services/commercial': typeof ServicesCommercialRoute
   '/services/emergency': typeof ServicesEmergencyRoute
   '/services/ev-charger': typeof ServicesEvChargerRoute
@@ -137,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/services/residential': typeof ServicesResidentialRoute
   '/services/security-systems': typeof ServicesSecuritySystemsRoute
   '/services/wiring-rewiring': typeof ServicesWiringRewiringRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -147,6 +168,8 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard/login': typeof DashboardLoginRoute
+  '/services/cctv-camera': typeof ServicesCctvCameraRoute
   '/services/commercial': typeof ServicesCommercialRoute
   '/services/emergency': typeof ServicesEmergencyRoute
   '/services/ev-charger': typeof ServicesEvChargerRoute
@@ -156,6 +179,7 @@ export interface FileRoutesByTo {
   '/services/residential': typeof ServicesResidentialRoute
   '/services/security-systems': typeof ServicesSecuritySystemsRoute
   '/services/wiring-rewiring': typeof ServicesWiringRewiringRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -168,6 +192,8 @@ export interface FileRoutesById {
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard/login': typeof DashboardLoginRoute
+  '/services/cctv-camera': typeof ServicesCctvCameraRoute
   '/services/commercial': typeof ServicesCommercialRoute
   '/services/emergency': typeof ServicesEmergencyRoute
   '/services/ev-charger': typeof ServicesEvChargerRoute
@@ -177,6 +203,7 @@ export interface FileRoutesById {
   '/services/residential': typeof ServicesResidentialRoute
   '/services/security-systems': typeof ServicesSecuritySystemsRoute
   '/services/wiring-rewiring': typeof ServicesWiringRewiringRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -190,6 +217,8 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/services'
     | '/sitemap.xml'
+    | '/dashboard/login'
+    | '/services/cctv-camera'
     | '/services/commercial'
     | '/services/emergency'
     | '/services/ev-charger'
@@ -199,6 +228,7 @@ export interface FileRouteTypes {
     | '/services/residential'
     | '/services/security-systems'
     | '/services/wiring-rewiring'
+    | '/dashboard/'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -209,6 +239,8 @@ export interface FileRouteTypes {
     | '/projects'
     | '/reviews'
     | '/sitemap.xml'
+    | '/dashboard/login'
+    | '/services/cctv-camera'
     | '/services/commercial'
     | '/services/emergency'
     | '/services/ev-charger'
@@ -218,6 +250,7 @@ export interface FileRouteTypes {
     | '/services/residential'
     | '/services/security-systems'
     | '/services/wiring-rewiring'
+    | '/dashboard'
     | '/services'
   id:
     | '__root__'
@@ -229,6 +262,8 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/services'
     | '/sitemap.xml'
+    | '/dashboard/login'
+    | '/services/cctv-camera'
     | '/services/commercial'
     | '/services/emergency'
     | '/services/ev-charger'
@@ -238,6 +273,7 @@ export interface FileRouteTypes {
     | '/services/residential'
     | '/services/security-systems'
     | '/services/wiring-rewiring'
+    | '/dashboard/'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
@@ -250,6 +286,8 @@ export interface RootRouteChildren {
   ReviewsRoute: typeof ReviewsRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  DashboardLoginRoute: typeof DashboardLoginRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -317,6 +355,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/wiring-rewiring': {
       id: '/services/wiring-rewiring'
       path: '/wiring-rewiring'
@@ -380,10 +425,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesCommercialRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/cctv-camera': {
+      id: '/services/cctv-camera'
+      path: '/cctv-camera'
+      fullPath: '/services/cctv-camera'
+      preLoaderRoute: typeof ServicesCctvCameraRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/dashboard/login': {
+      id: '/dashboard/login'
+      path: '/dashboard/login'
+      fullPath: '/dashboard/login'
+      preLoaderRoute: typeof DashboardLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface ServicesRouteChildren {
+  ServicesCctvCameraRoute: typeof ServicesCctvCameraRoute
   ServicesCommercialRoute: typeof ServicesCommercialRoute
   ServicesEmergencyRoute: typeof ServicesEmergencyRoute
   ServicesEvChargerRoute: typeof ServicesEvChargerRoute
@@ -397,6 +457,7 @@ interface ServicesRouteChildren {
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesCctvCameraRoute: ServicesCctvCameraRoute,
   ServicesCommercialRoute: ServicesCommercialRoute,
   ServicesEmergencyRoute: ServicesEmergencyRoute,
   ServicesEvChargerRoute: ServicesEvChargerRoute,
@@ -422,6 +483,8 @@ const rootRouteChildren: RootRouteChildren = {
   ReviewsRoute: ReviewsRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  DashboardLoginRoute: DashboardLoginRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

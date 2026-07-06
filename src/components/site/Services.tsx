@@ -6,6 +6,7 @@ import indImg from "@/assets/service-industrial.jpg";
 import panImg from "@/assets/service-panel.jpg";
 import evImg from "@/assets/service-ev.jpg";
 import genImg from "@/assets/service-generator.jpg";
+import cctvImg from "@/assets/service-cctv.png";
 import {
   Carousel,
   CarouselContent,
@@ -78,6 +79,7 @@ export function Services() {
     { icon: Building2,   title: t("New Construction Electrical", "Electricidad de Nuevas Construcciones"), desc: t("Commercial & residential wiring, structural installations, and full system layouts.", "Cableado comercial y residencial, instalaciones estructurales y diseños completos de sistemas."), image: comImg, to: "/services/commercial" },
     { icon: ShieldAlert, title: t("Fire Alarm Systems", "Sistemas de Alarma contra Incendios"),          desc: t("Safety-certified design, low-voltage wiring, code compliance, and testing.", "Diseño con certificación de seguridad, cableado de bajo voltaje, cumplimiento de códigos y pruebas."),   image: panImg, to: "/services/wiring-rewiring" },
     { icon: Cable,       title: t("Internet & Security Cameras", "Internet y Cámaras de Seguridad"), desc: t("Structured Cat6 network cabling, IP surveillance setups, and smart locks.", "Cableado estructurado de red Cat6, configuraciones de vigilancia IP y cerraduras inteligentes."),   image: resImg, to: "/services/security-systems" },
+    { icon: Video,       title: t("CCTV Camera Install & Repair", "Instalación y Reparación de Cámaras CCTV"), desc: t("Premium HD surveillance, DVR configurations, IP setups, and diagnostics.", "Vigilancia HD premium, configuraciones de DVR, configuraciones IP y diagnósticos."), image: cctvImg, to: "/services/cctv-camera" },
     { icon: Home,        title: t("Residential Electrical", "Electricidad Residencial"),      desc: t("Whole-home wiring, lighting setups, smart controls, and safety diagnostics.", "Cableado para todo el hogar, configuraciones de iluminación, controles inteligentes y diagnósticos de seguridad."), image: resImg, to: "/services/residential" },
     { icon: Zap,         title: t("Panel Upgrades", "Actualizaciones de Panel"),              desc: t("Modernize circuit breaker panels to 200A or 400A service.", "Modernice los paneles de disyuntores a un servicio de 200A o 400A."),             image: panImg, to: "/services/panel-upgrades" },
     { icon: Plug,        title: t("EV Charger Installation", "Instalación de Cargador EV"),     desc: t("Level 2 home chargers and commercial EV station installations.", "Cargadores domésticos de nivel 2 e instalaciones de estaciones de EV comerciales."),        image: evImg,  to: "/services/ev-charger" },

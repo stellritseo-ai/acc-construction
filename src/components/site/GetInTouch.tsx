@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { addWebEmail } from "@/lib/leads-store";
 import {
   Phone,
   Mail,
@@ -32,6 +33,17 @@ export function GetInTouch() {
     const msg = (form.querySelector("textarea[name='message']") as HTMLTextAreaElement)?.value || "";
 
     try {
+      // 1. Save to MongoDB
+      await addWebEmail({
+        name,
+        phone,
+        email,
+        service: service || "General Inquiry",
+        message: msg,
+        source: "Landing Get-In-Touch Form"
+      });
+
+      // 2. Formsubmit backup
       const response = await fetch("https://formsubmit.co/ajax/stellritinc@gmail.com", {
         method: "POST",
         headers: {

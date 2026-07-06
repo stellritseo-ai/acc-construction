@@ -82,7 +82,7 @@ function Index() {
       <EmergencyCTA />
       <Process />
       <WhyChooseUs />
-      <Projects />
+      <Projects isLanding={true} />
       <Testimonials />
       <ContactIllustrationSection />
       <ServiceArea />
