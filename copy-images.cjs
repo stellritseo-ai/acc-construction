@@ -41,6 +41,10 @@ const files = [
   {
     src: '/Users/jitensony/.gemini/antigravity-ide/brain/69c43f49-c4f6-4df8-9383-29827ce21ca1/why_choose_clean_1783439727478.png',
     dest: 'src/assets/why-choose-clean.png'
+  },
+  {
+    src: '/Users/jitensony/.gemini/antigravity-ide/brain/69c43f49-c4f6-4df8-9383-29827ce21ca1/about_team_clean_1783440087427.png',
+    dest: 'src/assets/about-team-clean.png'
   }
 ];
 

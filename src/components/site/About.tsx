@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, Phone, Mail, Clock, MapPin, ArrowRight, ShieldCheck, Hammer, Building, Trees, Layers } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import aboutTeamImg from "@/assets/about-team.jpg";
+import aboutTeamImg from "@/assets/about-team-clean.png";
 import aboutConstructionImg from "@/assets/about-construction-clean.png";
 import { Counter } from "./Counter";
 import { useLanguage } from "@/hooks/useLanguage";
