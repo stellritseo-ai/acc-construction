@@ -43,6 +43,16 @@ const files = [
 files.forEach(f => {
   try {
     if (fs.existsSync(f.src)) {
+      // Remove any existing symlink or file to write a real binary file
+      try {
+        const stats = fs.lstatSync(f.dest);
+        if (stats.isSymbolicLink() || stats.isFile()) {
+          fs.unlinkSync(f.dest);
+        }
+      } catch (e) {
+        // Destination doesn't exist, ignore
+      }
+
       fs.copyFileSync(f.src, f.dest);
       console.log(`Successfully copied ${f.src} to ${f.dest}`);
     } else {
