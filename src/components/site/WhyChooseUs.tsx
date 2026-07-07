@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import whyChooseImg from "@/assets/why-choose.jpeg";
+import whyChooseImg from "@/assets/why-choose-clean.png";
 import { useLanguage } from "@/hooks/useLanguage";
 
 const TinyShieldIcon = () => (
